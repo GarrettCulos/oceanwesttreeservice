@@ -1,0 +1,28 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/mysql": true,
+    "**/coverage": true,
+    "**/graphql-sam-deploy": true,
+    "**/serverless-sam-deploy": true,
+    "**/lambda-sam-deploy": true
+  },
+  "editor.formatOnSave": true,
+  "typescript.referencesCodeLens.enabled": true,
+  "tslint.ignoreDefinitionFiles": false,
+  "tslint.autoFixOnSave": true,
+  "tslint.exclude": "**/node_modules/**/*",
+  "cSpell.words": [
+    "csrf",
+    "cxmd",
+    "definitelytyped",
+    "metrica",
+    "precommit",
+    "promisified",
+    "promisify",
+    "serverless",
+    "setex"
+  ]
+}

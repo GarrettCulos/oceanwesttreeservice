@@ -1,0 +1,19 @@
+{
+  "cloudTempoCreds": { "token": "string" },
+  "serverJiraCreds": {
+    "protocol": "https:",
+    "host": "string",
+    "basicAuth": {
+      "user": "string",
+      "pass": "string"
+    }
+  },
+  "cloudJiraCreds": {
+    "protocol": "https:",
+    "host": "string",
+    "basicAuth": {
+      "user": "string",
+      "pass": "string"
+    }
+  }
+}

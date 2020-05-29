@@ -1,0 +1,34 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "Vic store helper api",
+  "Globals": {
+    "Api": {
+      "MinimumCompressionSize": 0,
+      "Cors": {
+        "AllowMethods": "'OPTIONS,GET,POST,PUT,DELETE'",
+        "AllowHeaders": "'Content-Type,X-Amz-Date,Authorization,x-access-token,Content-Encoding'",
+        "AllowOrigin": "'*'"
+      }
+    },
+    "Function": {
+      "Runtime": "nodejs12.x",
+      "Timeout": 300
+    }
+  },
+  "Resources": {
+    "ServerlessRestApi": {
+      "Type": "AWS::Serverless::Api",
+      "Properties": {
+        "Name": "ServerlessRestApi",
+        "StageName": "Prod"
+      }
+    }
+  },
+  "Outputs": {
+    "Api": {
+      "Description": "API Gateway endpoint URL for Prod stage for Hello World function",
+      "Value": { "Fn::Sub": "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/" }
+    }
+  }
+}

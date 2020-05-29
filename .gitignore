@@ -1,0 +1,40 @@
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.swp
+
+pids
+logs
+log
+results
+tmp
+
+# API keys and secrets
+config/*
+**/config/environment.*
+!**/config/environment.ts
+!**/config/environment.docker.ts
+!**/config/environment.prod.ts
+
+# Node Packages
+node_modules/
+
+# Build Files
+dist/
+
+# Code Coverage
+coverage/
+
+# Editors
+.idea
+*.iml
+
+
+# OS metadata
+.DS_Store
+Thumbs.db

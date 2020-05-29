@@ -1,0 +1,19 @@
+{
+  "cloudTempoCreds": { "token": "boX7tEA5ecCCDMb2VkBKcGpMF5R3M2" },
+  "serverJiraCreds": {
+    "protocol": "https:",
+    "host": "jira.highwaythreesolutions.com",
+    "basicAuth": {
+      "user": "gculos",
+      "pass": "gummyworms"
+    }
+  },
+  "cloudJiraCreds": {
+    "protocol": "https:",
+    "host": "highwaythree.atlassian.net",
+    "basicAuth": {
+      "user": "garrett@highwaythreesolutions.com",
+      "pass": "m9ep0Y0kU0ZLhhxRBYRW6C18"
+    }
+  }
+}

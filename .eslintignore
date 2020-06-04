@@ -1,5 +1,8 @@
-webpack
-node_modules
-dist
-lib 
-test
+webpack/
+node_modules/
+coverage/
+dist/
+lib/
+test/
+
+.vscode

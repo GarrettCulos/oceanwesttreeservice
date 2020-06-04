@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "eg2.tslint",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "sleistner.vscode-fileutils",
+    "waderyan.gitblame",
+    "esbenp.prettier-vscode"
+  ]
+}

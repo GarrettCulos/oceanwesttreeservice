@@ -3,18 +3,25 @@
 # Only use spaces to indent your .yml configuration.
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: node:10.15.3
+image: node:13
 
 pipelines:
   branches:
-    bulkOperations/master:
+    master:
+      - step:
+          caches:
+            - node
+          name: Create Project PRs
+          script:
+            - echo 'Create PR for bulk-operations project'
+    project/bulk-operations/master:
       - step:
           caches:
             - node
           name: Build and Test
           script:
             - echo 'Build and Test...'
-    bulkOperations/dev:
+    project/bulk-operations/dev:
       - step:
           name: Build and Test
           caches:

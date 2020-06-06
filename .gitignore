@@ -26,6 +26,7 @@ node_modules/
 
 # Build Files
 dist/
+build/
 
 # Code Coverage
 coverage/

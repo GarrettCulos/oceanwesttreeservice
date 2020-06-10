@@ -53,6 +53,15 @@ definitions:
           - ./scripts/bb-pipeline-cache-manager.sh ./_bulk_operations_add_on/ bulkoperations
           - cd ./_bulk_operations_add_on
           - echo 'Release script here'
+    - step: &build-cloud-api
+        name: 'Build Cloud Backup Api'
+        caches:
+          - node
+        artifacts:
+          - _cloud-backup-api/graphql-sam-deploy/**
+        script:
+          - npm install
+          - npm run cloudBackupApi.build.serverless
     - step: &sam-deploy
         name: 'Sam Deploy'
         script:
@@ -66,6 +75,19 @@ definitions:
               CAPABILITIES: ['CAPABILITY_IAM', 'CAPABILITY_AUTO_EXPAND']
               SAM_TEMPLATE: _graphql_sam_example/graphql-sam-deploy/template.json
               LOCAL_PATH: './_graphql_sam_example/graphql-sam-deploy'
+    - step: &deploy-cloud-api
+        name: 'Sam Deploy - Cloud Api'
+        script:
+          - pipe: atlassian/aws-sam-deploy:0.3.3
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_ACCESS_KEY_SECRET
+              AWS_DEFAULT_REGION: $AWS_SAM_DEFAULT_REGION
+              S3_BUCKET: $AWS_SAM_S3_BUCKET
+              STACK_NAME: $AWS_SAM_STACK_NAME
+              CAPABILITIES: ['CAPABILITY_IAM', 'CAPABILITY_AUTO_EXPAND']
+              SAM_TEMPLATE: _cloud-backup-api/graphql-sam-deploy/template.json
+              LOCAL_PATH: './_cloud-backup-api/graphql-sam-deploy'
 
   caches:
     bulkoperations: ./_bulk_operations_add_on/node_modules
@@ -91,6 +113,22 @@ pipelines:
       - step: *bulkOperations-test
       - step: *bulkOperations-build
       - step: *bulkOperations-release
+
+    project/cloud-backup-api/dev:
+      - step: *build-cloud-api
+      - step:
+          <<: *deploy-cloud-api
+          deployment: cloud-api-dev
+          artifacts:
+            - _cloud-backup-api/graphql-sam-deploy/**
+
+    project/cloud-backup-api/master:
+      - step: *build-cloud-api
+      - step:
+          <<: *deploy-cloud-api
+          deployment: cloud-api-production
+          artifacts:
+            - _cloud-backup-api/graphql-sam-deploy/**
 
     test/graphExample/test:
       - step:

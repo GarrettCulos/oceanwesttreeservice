@@ -1,0 +1,46 @@
+version: '3.7'
+services:
+  graphql:
+    container_name: storePortalGraphql
+    shm_size: '500Mb'
+    image: node:13.10.1-alpine3.10
+    volumes:
+      - '../:/api/graphql'
+    working_dir: /api/graphql
+    command: npm run graphqlSamEg.build.docker
+    expose:
+      - '4000'
+    networks:
+      - api
+    depends_on:
+      - dynamodb
+
+  dynamodb:
+    image: amazon/dynamodb-local
+    container_name: storePortalDynamodb
+    environment:
+      - ./Djava.library.path=./DynamoDBLocal_lib
+    volumes:
+      - .:/data/dynamodb-seed
+    ports:
+      - 8001:8000
+    networks:
+      - api
+    command: ['-jar', 'DynamoDBLocal.jar', '-sharedDb', '-dbPath', './', '-cors', '*']
+
+  nginx:
+    image: nginx:latest
+    container_name: storePortalApiGateway
+    depends_on:
+      - graphql
+    volumes:
+      - ./nginx-apigateway.conf:/etc/nginx/nginx.conf
+    networks:
+      - api
+    ports:
+      - 8080:8080
+
+networks:
+  api:
+    # use the bridge driver, but enable IPv6
+    driver: bridge

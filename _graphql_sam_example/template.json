@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Transform": "AWS::Serverless-2016-10-31",
-  "Description": "Vic store helper api",
+  "Description": "Graph QL Example",
   "Globals": {
     "Api": {
       "MinimumCompressionSize": 0,
@@ -13,7 +13,7 @@
     },
     "Function": {
       "Runtime": "nodejs12.x",
-      "Timeout": 300
+      "Timeout": 120
     }
   },
   "Resources": {
@@ -27,7 +27,7 @@
   },
   "Outputs": {
     "Api": {
-      "Description": "API Gateway endpoint URL for Prod stage for Hello World function",
+      "Description": "API Gateway endpoint URL for Prod stage",
       "Value": { "Fn::Sub": "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/" }
     }
   }

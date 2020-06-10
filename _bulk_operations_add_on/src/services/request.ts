@@ -27,7 +27,7 @@ class RequestLib {
 
   private joinHeaders(headers: Headers[]): Headers {
     const h = new Headers();
-    headers.forEach(header => {
+    headers.forEach((header) => {
       header.forEach((value: string, key: string) => {
         if (h.has(key)) {
           h.append(key, value);
@@ -44,14 +44,14 @@ class RequestLib {
     const method = req.method || 'GET';
     const headers = this.joinHeaders([
       new Headers(req.headers ? req.headers : []),
-      this._config.headers || new Headers()
+      this._config.headers || new Headers(),
     ]);
     return axios.request({
       ...req,
       url,
       method,
       headers,
-      withCredentials: true
+      withCredentials: true,
     });
   }
 
@@ -64,21 +64,21 @@ class RequestLib {
       requestOptions.data = options.data;
       requestOptions.contentType = 'application/json';
     }
-    return new Observable(observer => {
+    return new Observable((observer) => {
       AP.request({
         ...requestOptions,
-        success: function(response) {
+        success: function (response) {
           // convert the string response to JSON
           response = JSON.parse(response);
           //console.log(response);
           observer.next(response);
           observer.complete();
         },
-        error: function(err) {
+        error: function (err) {
           console.log(err);
           observer.error(err);
           observer.complete();
-        }
+        },
       });
     });
   }
@@ -95,7 +95,7 @@ class RequestLib {
     return new Promise((resolve, reject) => {
       AP.request({
         ...requestOptions,
-        success: function(response) {
+        success: function (response) {
           // convert the string response to JSON
           if (response) {
             response = JSON.parse(response);
@@ -106,10 +106,10 @@ class RequestLib {
             resolve();
           }
         },
-        error: function(err) {
+        error: function (err) {
           console.log(err);
           reject(err);
-        }
+        },
       });
     });
   }
@@ -118,6 +118,6 @@ class RequestLib {
 export default new RequestLib({
   headers: new Headers([
     // ['Access-Control-Allow-Origin', '*'],
-    ['Content-Type', 'application/json']
-  ])
+    ['Content-Type', 'application/json'],
+  ]),
 });

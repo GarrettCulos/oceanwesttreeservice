@@ -30,7 +30,7 @@ function updateCheckedBoxes(checkboxesState, action: { type: string; payload: an
   switch (action.type) {
     case 'toggleKey': {
       if (checkboxesState.check.includes(action.payload.key)) {
-        return { ...checkboxesState, check: checkboxesState.check.filter(key => key !== action.payload.key) };
+        return { ...checkboxesState, check: checkboxesState.check.filter((key) => key !== action.payload.key) };
       } else {
         return { ...checkboxesState, check: [...checkboxesState.check, action.payload.key] };
       }
@@ -44,7 +44,7 @@ function updateCheckedBoxes(checkboxesState, action: { type: string; payload: an
     }
     case 'deselect': {
       if (checkboxesState.check.includes(action.payload.key)) {
-        return { ...checkboxesState, check: checkboxesState.check.filter(key => key !== action.payload.key) };
+        return { ...checkboxesState, check: checkboxesState.check.filter((key) => key !== action.payload.key) };
       } else {
         return checkboxesState;
       }
@@ -103,7 +103,7 @@ const App: React.FC = () => {
     { label: 'Name', value: 'Name' },
     { label: 'Key', value: 'Key' },
     { label: 'ID', value: 'ID' },
-    { label: 'Project Lead', value: 'Project Lead' }
+    { label: 'Project Lead', value: 'Project Lead' },
   ];
 
   useEffect(() => {
@@ -113,21 +113,21 @@ const App: React.FC = () => {
         setSearchKey('Name');
         const mapping: any = data;
         setSearchResultOptions(
-          mapping.map(row => ({
+          mapping.map((row) => ({
             label: row.name,
-            value: row.name
+            value: row.name,
           }))
         );
         const ascending: any = 'ASC';
         setSortOrder(ascending);
       },
-      reason => {}
+      (reason) => {}
     );
   }, []);
 
   const deleteChosenProject = useCallback((key: string | number, searchKey, searchKeyOptionsArray) => {
     reqService.jiraRequest({ path: `/rest/api/3/project/${key}`, type: 'DELETE' }).then(
-      value => {
+      (value) => {
         reqService.jiraRequest({ path: '/rest/api/3/project?expand=lead', type: 'GET' }).then(
           (data: any) => {
             checkboxesDispatch({ type: 'deselect', payload: { key } });
@@ -136,40 +136,40 @@ const App: React.FC = () => {
             switch (searchKeyOptionsArray.indexOf(searchKey)) {
               case 0: {
                 setSearchResultOptions(
-                  mapping.map(row => ({
+                  mapping.map((row) => ({
                     label: row.name,
-                    value: row.name
+                    value: row.name,
                   }))
                 );
                 break;
               }
               case 1: {
                 setSearchResultOptions(
-                  mapping.map(row => ({
+                  mapping.map((row) => ({
                     label: row.key,
-                    value: row.key
+                    value: row.key,
                   }))
                 );
                 break;
               }
               case 2: {
                 setSearchResultOptions(
-                  mapping.map(row => ({
+                  mapping.map((row) => ({
                     label: row.id,
-                    value: row.id
+                    value: row.id,
                   }))
                 );
                 break;
               }
               case 3: {
-                const options = mapping.map(row => row.lead.displayName);
+                const options = mapping.map((row) => row.lead.displayName);
                 const reducedOption = options.reduce(
                   (unique, item) => (unique.includes(item) ? unique : [...unique, item]),
                   []
                 );
-                const finalOption = reducedOption.map(row => ({
+                const finalOption = reducedOption.map((row) => ({
                   label: row,
-                  value: row
+                  value: row,
                 }));
                 setSearchResultOptions(finalOption);
                 break;
@@ -180,10 +180,10 @@ const App: React.FC = () => {
             setDeleteButtonAlert(false);
             setDeleteButtonSuccessAlert(true);
           },
-          reason => {}
+          (reason) => {}
         );
       },
-      reason => {}
+      (reason) => {}
     );
   }, []);
 
@@ -193,13 +193,13 @@ const App: React.FC = () => {
       const promiseRequest = reqService
         .jiraRequest({ path: `/rest/api/3/project/${data[i].cells[3].key}`, type: 'DELETE' })
         .then(
-          value => {},
-          reason => {}
+          (value) => {},
+          (reason) => {}
         );
       promises.push(promiseRequest);
     }
     Promise.all(promises).then(
-      value => {
+      (value) => {
         reqService.jiraRequest({ path: '/rest/api/3/project?expand=lead', type: 'GET' }).then(
           (data: any) => {
             checkboxesDispatch({ type: 'reset', payload: { undefined } });
@@ -210,40 +210,40 @@ const App: React.FC = () => {
             switch (searchKeyOptionsArray.indexOf(searchKey)) {
               case 0: {
                 setSearchResultOptions(
-                  mapping.map(row => ({
+                  mapping.map((row) => ({
                     label: row.name,
-                    value: row.name
+                    value: row.name,
                   }))
                 );
                 break;
               }
               case 1: {
                 setSearchResultOptions(
-                  mapping.map(row => ({
+                  mapping.map((row) => ({
                     label: row.key,
-                    value: row.key
+                    value: row.key,
                   }))
                 );
                 break;
               }
               case 2: {
                 setSearchResultOptions(
-                  mapping.map(row => ({
+                  mapping.map((row) => ({
                     label: row.id,
-                    value: row.id
+                    value: row.id,
                   }))
                 );
                 break;
               }
               case 3: {
-                const options = mapping.map(row => row.lead.displayName);
+                const options = mapping.map((row) => row.lead.displayName);
                 const reducedOption = options.reduce(
                   (unique, item) => (unique.includes(item) ? unique : [...unique, item]),
                   []
                 );
-                const finalOption = reducedOption.map(row => ({
+                const finalOption = reducedOption.map((row) => ({
                   label: row,
-                  value: row
+                  value: row,
                 }));
                 setSearchResultOptions(finalOption);
                 break;
@@ -252,10 +252,10 @@ const App: React.FC = () => {
                 break;
             }
           },
-          reason => {}
+          (reason) => {}
         );
       },
-      reason => {}
+      (reason) => {}
     );
   }, []);
 
@@ -268,37 +268,37 @@ const App: React.FC = () => {
     }
     if (newOption.label === searchKeyOptionsArray[0]) {
       setSearchResultOptions(
-        rows.map(row => ({
+        rows.map((row) => ({
           label: row.name,
-          value: row.name
+          value: row.name,
         }))
       );
     } else if (newOption.label === searchKeyOptionsArray[1]) {
       setSearchResultOptions(
-        rows.map(row => ({
+        rows.map((row) => ({
           label: row.key,
-          value: row.key
+          value: row.key,
         }))
       );
     } else if (newOption.label === searchKeyOptionsArray[2]) {
       setSearchResultOptions(
-        rows.map(row => ({
+        rows.map((row) => ({
           label: row.id,
-          value: row.id
+          value: row.id,
         }))
       );
     } else if (newOption.label === searchKeyOptionsArray[3]) {
-      const options = rows.map(row => row.lead.displayName);
+      const options = rows.map((row) => row.lead.displayName);
       const reducedOption = options.reduce((unique, item) => (unique.includes(item) ? unique : [...unique, item]), []);
-      const finalOption = reducedOption.map(row => ({
+      const finalOption = reducedOption.map((row) => ({
         label: row,
-        value: row
+        value: row,
       }));
       setSearchResultOptions(finalOption);
     }
   }, []);
 
-  const handleSearchboxInputChange = useCallback(newInput => {
+  const handleSearchboxInputChange = useCallback((newInput) => {
     if (newInput && newInput !== undefined && newInput !== '') {
       if (newInput.label) {
         setSearchBoxInput(newInput.label);
@@ -308,7 +308,7 @@ const App: React.FC = () => {
     }
   }, []);
 
-  const handleNewSearchTerm = useCallback(newInput => {
+  const handleNewSearchTerm = useCallback((newInput) => {
     if (newInput && newInput !== undefined && newInput !== '') {
       if (newInput.label) {
         setSearchBoxInput(newInput.label);
@@ -335,15 +335,15 @@ const App: React.FC = () => {
     }
   };
 
-  const checkMarks = rows => {
-    rows.forEach(element => {
+  const checkMarks = (rows) => {
+    rows.forEach((element) => {
       const key = element.cells[3].key;
       checkboxesDispatch({ type: 'selectAll', payload: { key } });
     });
   };
 
-  const uncheckMarks = useCallback(rows => {
-    rows.forEach(element => {
+  const uncheckMarks = useCallback((rows) => {
+    rows.forEach((element) => {
       const key = element.cells[3].key;
       checkboxesDispatch({ type: 'deselect', payload: { key } });
     });
@@ -351,7 +351,7 @@ const App: React.FC = () => {
 
   const deleteCheckmarkedProjects = (searchKey: string, searchKeyOptionsArray) => {
     setDeleteButtonAlertKey(undefined);
-    checkboxesState.check.forEach(key => {
+    checkboxesState.check.forEach((key) => {
       deleteChosenProject(key, searchKey, searchKeyOptionsArray);
       checkboxesDispatch({ type: 'deselect', payload: { key } });
     });
@@ -360,7 +360,7 @@ const App: React.FC = () => {
     tableHeadDispatch({ type: true });
   };
 
-  const selectAllButton = rows => {
+  const selectAllButton = (rows) => {
     tableHeadDispatch({ type: tableHeadState.check });
     switch (tableHeadState.check) {
       case false:
@@ -375,7 +375,7 @@ const App: React.FC = () => {
     }
   };
 
-  const pageMustBeChanged = useCallback(pageNumber => {
+  const pageMustBeChanged = useCallback((pageNumber) => {
     setDefaultPageNumber(pageNumber);
   }, []);
 
@@ -407,7 +407,7 @@ const App: React.FC = () => {
     setDeleteButtonAlertKey(undefined);
   }, []);
 
-  const handleDeleteButtonOptionOpen = useCallback(projectKey => {
+  const handleDeleteButtonOptionOpen = useCallback((projectKey) => {
     setDeleteButtonSuccessAlert(false);
     setDeleteButtonAlert(true);
     setDeleteButtonAlertKey(projectKey);
@@ -423,7 +423,7 @@ const App: React.FC = () => {
     setDeleteButtonSuccessAlert(false);
   }, []);
 
-  const createRows = requestDataInterface => {
+  const createRows = (requestDataInterface) => {
     const projectContent = (key, value) => {
       switch (key) {
         case 'lead':
@@ -445,27 +445,27 @@ const App: React.FC = () => {
                 onChange={() => toggleCheckbox(`${project.key}`)}
                 isChecked={checkboxesState.check.includes(project.key)}
               />
-            )
+            ),
           },
           {
             key: 'avatarUrls',
-            content: projectContent('avatarUrls', project.avatarUrls)
+            content: projectContent('avatarUrls', project.avatarUrls),
           },
           {
             key: project.name,
-            content: project.name
+            content: project.name,
           },
           {
             key: project.key,
-            content: project.key
+            content: project.key,
           },
           {
             key: project.id,
-            content: project.id
+            content: project.id,
           },
           {
             key: project.lead,
-            content: projectContent('lead', project.lead)
+            content: projectContent('lead', project.lead),
           },
           {
             key: 'deleteButton',
@@ -483,9 +483,9 @@ const App: React.FC = () => {
                       actions={[
                         {
                           text: 'Yes',
-                          onClick: () => deleteChosenProject(project.key, searchKey, searchKeyOptionsArray)
+                          onClick: () => deleteChosenProject(project.key, searchKey, searchKeyOptionsArray),
                         },
-                        { text: 'No', onClick: handleCloseDeleteButtonOption }
+                        { text: 'No', onClick: handleCloseDeleteButtonOption },
                       ]}
                       onClose={handleCloseDeleteButtonOption}
                       heading={`Are you sure you want to delete the project: ${project.name}?`}
@@ -493,9 +493,9 @@ const App: React.FC = () => {
                   )}
                 </ModalTransition>
               </div>
-            )
-          }
-        ]
+            ),
+          },
+        ],
       }));
     }
     return rows;
@@ -510,22 +510,22 @@ const App: React.FC = () => {
   ) => {
     if (searching) {
       let checkedboxesArray: any[] = [];
-      checkboxesState.check.forEach(key => {
-        checkedboxesArray = [...checkedboxesArray, ...requestDataInterface.filter(item => item.key === key)];
+      checkboxesState.check.forEach((key) => {
+        checkedboxesArray = [...checkedboxesArray, ...requestDataInterface.filter((item) => item.key === key)];
       });
       let filteredArray: any[];
       switch (searchKeyOptionsArray.indexOf(searchKey)) {
         case 0:
-          filteredArray = requestDataInterface.filter(item => item.name === searchboxFilter);
+          filteredArray = requestDataInterface.filter((item) => item.name === searchboxFilter);
           break;
         case 1:
-          filteredArray = requestDataInterface.filter(item => item.key === searchboxFilter);
+          filteredArray = requestDataInterface.filter((item) => item.key === searchboxFilter);
           break;
         case 2:
-          filteredArray = requestDataInterface.filter(item => item.id === searchboxFilter);
+          filteredArray = requestDataInterface.filter((item) => item.id === searchboxFilter);
           break;
         case 3:
-          filteredArray = requestDataInterface.filter(item => item.lead.displayName === searchboxFilter);
+          filteredArray = requestDataInterface.filter((item) => item.lead.displayName === searchboxFilter);
           break;
         default:
           return createRows(requestDataInterface);
@@ -554,49 +554,49 @@ const App: React.FC = () => {
           key: 'checkbox',
           content: <Checkbox onChange={() => selectAllButton(rows)} isChecked={tableHeadState.check} />,
           isSortable: false,
-          width: withWidth ? 1 : undefined
+          width: withWidth ? 1 : undefined,
         },
         {
           key: 'avatarUrls',
           content: '',
           isSortable: false,
-          width: withWidth ? 1 : undefined
+          width: withWidth ? 1 : undefined,
         },
         {
           key: 'name',
           content: 'Name',
           isSortable: true,
-          width: withWidth ? 10 : undefined
+          width: withWidth ? 10 : undefined,
         },
         {
           key: 'key',
           content: 'Key',
           isSortable: true,
-          width: withWidth ? 10 : undefined
+          width: withWidth ? 10 : undefined,
         },
         {
           key: 'id',
           content: 'ID',
           isSortable: true,
-          width: withWidth ? 10 : undefined
+          width: withWidth ? 10 : undefined,
         },
         {
           key: 'lead',
           content: 'Project Lead',
           isSortable: false,
-          width: withWidth ? 10 : undefined
+          width: withWidth ? 10 : undefined,
         },
         {
           key: 'delete',
           content: '',
           isSortable: false,
-          width: withWidth ? 5 : undefined
-        }
-      ]
+          width: withWidth ? 5 : undefined,
+        },
+      ],
     };
   };
 
-  const handleRowAmountChange = useCallback(value => {
+  const handleRowAmountChange = useCallback((value) => {
     try {
       setRowsPerPage(parseInt(value.value));
       setDefaultPageNumber(1);
@@ -605,7 +605,7 @@ const App: React.FC = () => {
     }
   }, []);
 
-  const tableSortSettings = useCallback(data => {
+  const tableSortSettings = useCallback((data) => {
     setSortKey(data.key);
     setSortOrder(data.sortOrder);
   }, []);
@@ -630,17 +630,17 @@ const App: React.FC = () => {
     { label: 20, value: 20 },
     { label: 30, value: 30 },
     { label: 40, value: 40 },
-    { label: 50, value: 50 }
+    { label: 50, value: 50 },
   ];
 
   const alertDeleteAllPrompt = [
     { text: 'Yes', onClick: () => deleteAllProjects(rows, searchKey, searchKeyOptionsArray) },
-    { text: 'No', onClick: handleCloseDeleteAllOption }
+    { text: 'No', onClick: handleCloseDeleteAllOption },
   ];
   const alertDeleteAllSuccess = [{ text: 'OK', onClick: handleCloseDeleteAllSuccessOption }];
   const alertDeleteSelectedPrompt = [
     { text: 'Yes', onClick: () => deleteCheckmarkedProjects(searchKey || '', searchKeyOptionsArray) },
-    { text: 'No', onClick: handleCloseDeleteSelectedOption }
+    { text: 'No', onClick: handleCloseDeleteSelectedOption },
   ];
   const alertDeleteSelectedSuccess = [{ text: 'OK', onClick: handleCloseDeleteSelectedSuccessOption }];
 
@@ -656,7 +656,7 @@ const App: React.FC = () => {
             className="search-select"
             defaultValue={searchSelectOptionsArray[0]}
             options={searchSelectOptionsArray}
-            onChange={e => handleOptionChange(e, requestData, isSearching, searchKey, searchKeyOptionsArray)}
+            onChange={(e) => handleOptionChange(e, requestData, isSearching, searchKey, searchKeyOptionsArray)}
           />
         </div>
 
@@ -667,8 +667,8 @@ const App: React.FC = () => {
             classNamePrefix="react-select"
             placeholder="Click and type to begin searching"
             options={searchResultOptions}
-            onInputChange={e => handleSearchboxInputChange(e)}
-            onChange={e => handleNewSearchTerm(e)}
+            onInputChange={(e) => handleSearchboxInputChange(e)}
+            onChange={(e) => handleNewSearchTerm(e)}
           />
         </div>
 
@@ -690,7 +690,7 @@ const App: React.FC = () => {
             className="search-select"
             defaultValue={rowsPerPageOptions[0]}
             options={rowsPerPageOptions}
-            onChange={e => handleRowAmountChange(e)}
+            onChange={(e) => handleRowAmountChange(e)}
           />
         </div>
       </div>
@@ -705,8 +705,8 @@ const App: React.FC = () => {
           defaultSortKey={sortKey}
           defaultSortOrder={sortOrder}
           page={defaultPageNumber}
-          onSetPage={page => updatePageNumber(page)}
-          onSort={data => tableSortSettings(data)}
+          onSetPage={(page) => updatePageNumber(page)}
+          onSort={(data) => tableSortSettings(data)}
         ></DynamicTable>
       </TableStyle>
 
@@ -737,7 +737,7 @@ const App: React.FC = () => {
             marginLeft: '5px',
             fontSize: '14px',
             borderColor: 'black !important',
-            borderWidth: 'thin'
+            borderWidth: 'thin',
           }}
           onClick={handleDeleteSelectedOptionOpen}
         >
@@ -769,7 +769,7 @@ const App: React.FC = () => {
             marginLeft: '5px',
             fontSize: '14px',
             borderColor: 'black !important',
-            borderWidth: 'thin'
+            borderWidth: 'thin',
           }}
           onClick={handleDeleteAllOptionOpen}
         >

@@ -1,3 +1,11 @@
 {
-  "recommendations": ["streetsidesoftware.code-spell-checker"]
+  "recommendations": [
+    "eg2.tslint",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "sleistner.vscode-fileutils",
+    "waderyan.gitblame",
+    "esbenp.prettier-vscode",
+    "streetsidesoftware.code-spell-checker"
+  ]
 }

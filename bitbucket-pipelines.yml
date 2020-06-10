@@ -5,26 +5,105 @@
 # You can specify a custom docker image from Docker Hub as your build environment.
 image: node:13
 
+definitions:
+  steps:
+    - step: &lint-stack
+        name: 'Atlassian Stack: Lint'
+        caches:
+          - node
+          - bulkoperations
+        script:
+          - ./scripts/bb-pipeline-cache-manager.sh ./ node
+          - ./scripts/bb-pipeline-cache-manager.sh ./_bulk_operations_add_on/ bulkoperations
+          - npm run lint
+    - step: &test-stack
+        name: 'Atlassian Stack: Test'
+        caches:
+          - node
+        script:
+          - ./scripts/bb-pipeline-cache-manager.sh ./ node
+          - npm run test
+    - step: &bulkOperations-build
+        name: 'Bulk Opeations Add On: Build'
+        caches:
+          - node
+          - bulkoperations
+        script:
+          - ./scripts/bb-pipeline-cache-manager.sh ./ node
+          - ./scripts/bb-pipeline-cache-manager.sh ./_bulk_operations_add_on/ bulkoperations
+          - cd ./_bulk_operations_add_on
+          - npm build.prod
+    - step: &bulkOperations-test
+        name: 'Bulk Opeations Add On: Test'
+        caches:
+          - node
+          - bulkoperations
+        script:
+          - ./scripts/bb-pipeline-cache-manager.sh ./ node
+          - ./scripts/bb-pipeline-cache-manager.sh ./_bulk_operations_add_on/ bulkoperations
+          - cd ./_bulk_operations_add_on
+          - npm test
+    - step: &bulkOperations-release
+        name: 'Bulk Opeations Add On: Release'
+        caches:
+          - node
+          - bulkoperations
+        script:
+          - ./scripts/bb-pipeline-cache-manager.sh ./ node
+          - ./scripts/bb-pipeline-cache-manager.sh ./_bulk_operations_add_on/ bulkoperations
+          - cd ./_bulk_operations_add_on
+          - echo 'Release script here'
+    - step: &sam-deploy
+        name: 'Sam Deploy'
+        script:
+          - pipe: atlassian/aws-sam-deploy:0.3.3
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_ACCESS_KEY_SECRET
+              AWS_DEFAULT_REGION: $AWS_SAM_DEFAULT_REGION
+              S3_BUCKET: $AWS_SAM_S3_BUCKET
+              STACK_NAME: $AWS_SAM_STACK_NAME
+              CAPABILITIES: ['CAPABILITY_IAM', 'CAPABILITY_AUTO_EXPAND']
+              SAM_TEMPLATE: _graphql_sam_example/graphql-sam-deploy/template.json
+              LOCAL_PATH: './_graphql_sam_example/graphql-sam-deploy'
+
+  caches:
+    bulkoperations: ./_bulk_operations_add_on/node_modules
+
 pipelines:
+  default:
+    - step: *lint-stack
+    - step: *test-stack
+
   branches:
     master:
-      - step:
-          caches:
-            - node
-          name: Create Project PRs
-          script:
-            - echo 'Create PR for bulk-operations project'
+      - step: *bulkOperations-test
+
     project/bulk-operations/master:
-      - step:
-          caches:
-            - node
-          name: Build and Test
-          script:
-            - echo 'Build and Test...'
+      - step: *bulkOperations-test
+      - step: *bulkOperations-build
+
     project/bulk-operations/dev:
+      - step: *bulkOperations-test
+      - step: *bulkOperations-build
+
+    project/bulk-operations/release-*:
+      - step: *bulkOperations-test
+      - step: *bulkOperations-build
+      - step: *bulkOperations-release
+
+    test/graphExample/test:
       - step:
-          name: Build and Test
+          name: 'Build Graphql'
           caches:
             - node
+          artifacts:
+            - _graphql_sam_example/graphql-sam-deploy/**
           script:
-            - echo "Build and test..."
+            - npm install
+            - npm run graphqlSamEg.build.serverless
+      - step:
+          <<: *sam-deploy
+          deployment: graphExample
+          artifacts:
+            - _graphql_sam_example/graphql-sam-deploy/**

@@ -1,8 +1,7 @@
 const merge = require('webpack-merge');
 const path = require('path');
 const { rootDir, graphQl } = require('./webpack.base');
-const devConfig = {
-  mode: 'production',
+const buildConfig = {
   resolve: {
     alias: {
       '@config': path.resolve(rootDir, 'config'),
@@ -10,4 +9,4 @@ const devConfig = {
     },
   },
 };
-module.exports = [merge(graphQl, { ...devConfig })];
+module.exports = [merge(graphQl('production'), { ...buildConfig })];

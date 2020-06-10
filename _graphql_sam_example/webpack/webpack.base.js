@@ -12,10 +12,10 @@ const rootDir = `${ogRoot}/${projectDirName}`;
  */
 const baseDeployment = 'dist';
 
-const graphQl = {
-  mode: 'development',
+const graphQl = (mode = 'development') => ({
+  mode,
   entry: {
-    graphFunction: path.resolve(rootDir, `src/graphql/graphFunction.ts`),
+    graphFunction: path.resolve(rootDir, 'src', 'graphql', 'graphFunction.ts'),
   },
   externals: [nodeExternals()],
   target: 'node',
@@ -30,23 +30,22 @@ const graphQl = {
     library: 'graphql api',
     libraryTarget: 'umd',
     filename: (chunkData) => `${chunkData.chunk.name.replace('.ts', '')}.js`,
-    path: path.resolve(rootDir, `${baseDeployment}`, 'src', 'graphql', 'dev'),
+    path: path.resolve(rootDir, `${baseDeployment}`, 'serverless', mode),
   },
   plugins: [
     new Dotenv({ path: `${projectDirName}/.env` }),
     new SamWebpackPlugin({
-      dynamoDb: './dynamodb-table.json',
-      verbose: true,
-      output: './graphql-sam-deploy',
+      dynamoDb: path.resolve(rootDir, 'dynamodb-table.json'),
+      output: `${projectDirName}/graphql-sam-deploy`,
       baseTemplate: path.resolve(rootDir, 'template.json'),
     }),
   ],
-};
+});
 
 const expressGraphql = {
   mode: 'development',
   entry: {
-    express: path.resolve(rootDir, 'src/graphql/express.ts'),
+    express: path.resolve(rootDir, 'src', 'graphql', 'express.ts'),
   },
   externals: [nodeExternals()],
   target: 'node',
@@ -61,7 +60,7 @@ const expressGraphql = {
     library: 'express graphql api',
     libraryTarget: 'umd',
     filename: (chunkData) => `${chunkData.chunk.name.replace('.ts', '')}.js`,
-    path: path.resolve(rootDir, `${baseDeployment}`, 'src', 'graphql', 'express'),
+    path: path.resolve(rootDir, `${baseDeployment}`, 'express'),
   },
   plugins: [new Dotenv({ path: `${projectDirName}/.env` })],
 };

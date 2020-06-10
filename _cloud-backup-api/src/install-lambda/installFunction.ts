@@ -25,4 +25,7 @@ import { Context, APIGatewayEvent } from 'aws-lambda';
 */
 export const handler = (event: APIGatewayEvent, context: Context) => {
   console.log(event, context);
+  // check client doesn't exist
+  // if exists, enable client
+  // if not, create new client
 };

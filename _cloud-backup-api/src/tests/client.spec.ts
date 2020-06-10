@@ -3,6 +3,6 @@ import { Client } from '../models/client';
 
 describe('User', () => {
   it('cannot create order if not authorized', async () => {
-    expect(true).toBeTruthly();
+    expect(true).toEqual(true);
   });
 });

@@ -1,17 +1,21 @@
 import jwt from 'jsonwebtoken';
 import { environment } from '@config/environment';
 
-export const jwtSign = (d: { data: any; expiresIn: number }) => {
-  const { data, expiresIn } = d;
-  return jwt.sign(data, environment.SESSION_SECRET, {
+export const jwtSign = (d: { data: any; expiresIn: number; secret: string }) => {
+  const { data, expiresIn, secret } = d;
+  return jwt.sign(data, secret || environment.SESSION_SECRET, {
     expiresIn: expiresIn,
   });
 };
 
-export const decodeJwtToken = (token: string, withErrors = false): Promise<any> => {
+export const decodeJwtToken = (
+  token: string,
+  withErrors = false,
+  secret = environment.SESSION_SECRET
+): Promise<any> => {
   return new Promise((resolve: Function) => {
     if (token) {
-      jwt.verify(token, environment.SESSION_SECRET, (err: any, decoded: any) => {
+      jwt.verify(token, secret, (err: any, decoded: any) => {
         if (err) {
           return resolve(withErrors ? err : undefined);
         } else {
@@ -24,10 +28,10 @@ export const decodeJwtToken = (token: string, withErrors = false): Promise<any> 
   });
 };
 
-const checkJwtToken = (token: string) => {
+const checkJwtToken = (token: string, secret = environment.SESSION_SECRET) => {
   return new Promise((resolve: Function, reject: Function) => {
     if (token) {
-      jwt.verify(token, environment.SESSION_SECRET, (err: any, decoded: any) => {
+      jwt.verify(token, secret, (err: any, decoded: any) => {
         if (err) {
           return reject({
             status: 401,

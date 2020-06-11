@@ -29,7 +29,7 @@ export const getClientById = async (clientId: string): Promise<Client> => {
 export const addClient = async (d: AddClientInterface): Promise<Client> => {
   const mid = metro.metricStart('addClient');
   try {
-    const clientId = uuid();
+    const clientId = d.id || uuid();
     const now = new Date();
     const client = new Client({
       ...d,
@@ -84,8 +84,8 @@ export const updateClient = async (clientId: string, updateData: UpdateClientInt
   }
 };
 
-export const disableClient = async (clientId: string): Promise<boolean> => {
-  const mid = metro.metricStart('disableClient');
+export const setClientStatus = async (clientId: string, enabled: boolean): Promise<boolean> => {
+  const mid = metro.metricStart('setClientStatus');
   try {
     const now = new Date();
     await update({
@@ -98,7 +98,7 @@ export const disableClient = async (clientId: string): Promise<boolean> => {
       UpdateExpression: 'SET #enabled = :enabled, #updatedAt = :now',
       ExpressionAttributeNames: { '#enabled': 'enabled', '#storeIndexSK': 'storeIndexSk' },
       ExpressionAttributeValues: {
-        ':enabled': false,
+        ':enabled': enabled,
         ':now': `${now}`,
       },
     });

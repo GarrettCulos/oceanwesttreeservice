@@ -1,1 +1,3 @@
-export const environment = {};
+export const environment = {
+  SESSION_SECRET: 'super secret',
+};

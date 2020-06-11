@@ -2,13 +2,16 @@ import uuid from 'uuid';
 import { CLIENT_PRIMARY_KEY } from '../constants';
 
 export interface AddClientInterface {
-  key: string;
-  secret: string;
+  id?: string;
+  clientKey: string;
+  publicKey: string;
+  sharedSecret: string;
   atlassianHost: string;
   email: string;
 }
 
 export interface UpdateClientInterface {
+  enable?: boolean;
   activeBackupChange: {
     type: 'add' | 'remove';
     id: string;
@@ -17,14 +20,15 @@ export interface UpdateClientInterface {
 
 export class ClientType {
   readonly id?: string;
-  key: string;
-  secret: string;
+  clientKey: string;
+  publicKey: string;
+  sharedSecret: string;
   atlassianHost: string;
   email: string;
   enabled: boolean;
   activeBackups: string[];
-  updatedAt: Date;
-  createdAt: Date;
+  updatedAt?: Date;
+  createdAt?: Date;
 }
 
 export class Client extends ClientType {

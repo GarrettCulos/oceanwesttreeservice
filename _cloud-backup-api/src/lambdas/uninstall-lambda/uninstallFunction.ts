@@ -2,7 +2,7 @@ import { Context, APIGatewayEvent } from 'aws-lambda';
 /*
 @WebpackLambda({
   "Properties": {
-    "Handler": "installFunction.handler",
+    "Handler": "uninstallFunction.handler",
     "Policies":[ 
       "AWSLambdaExecute", 
       { 
@@ -15,7 +15,7 @@ import { Context, APIGatewayEvent } from 'aws-lambda';
       "graphql":{
         "Type": "Api",
         "Properties": {
-          "Path": "/api/install",
+          "Path": "/api/uninstall",
           "Method": "post"
         }
       }
@@ -25,7 +25,6 @@ import { Context, APIGatewayEvent } from 'aws-lambda';
 */
 export const handler = (event: APIGatewayEvent, context: Context) => {
   console.log(event, context);
-  // check client doesn't exist
-  // if exists, enable client
-  // if not, create new client
+  // disable client, dont delete anything.
+  return true;
 };

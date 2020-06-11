@@ -1,9 +1,9 @@
 import uuid from 'uuid';
-import { remove, query, put } from '@services/dynamo-connect';
+import { update, query, put } from '@services/dynamo-connect';
 import { environment } from '@config/environment';
 import * as metro from '@util/metrica';
 import { CLIENT_PRIMARY_KEY } from '../constants';
-import { Client, AddClientInterface } from '../models/client';
+import { Client, AddClientInterface, UpdateClientInterface } from '../models/client';
 
 export const getClientById = async (clientId: string): Promise<Client> => {
   const mid = metro.metricStart('getClientById');
@@ -34,6 +34,7 @@ export const addClient = async (d: AddClientInterface): Promise<Client> => {
     const client = new Client({
       ...d,
       enabled: true,
+      activeBackups: [],
       id: clientId,
       createdAt: now,
       updatedAt: now,
@@ -52,19 +53,54 @@ export const addClient = async (d: AddClientInterface): Promise<Client> => {
   }
 };
 
-export const disableClient = async (clientId: string): Promise<boolean> => {
+export const updateClient = async (clientId: string, updateData: UpdateClientInterface): Promise<Client> => {
   const mid = metro.metricStart('addClient');
   try {
+    const now = new Date();
     const client = await getClientById(clientId);
-    const newClient = new Client({
+    const activeBackups = updateData.activeBackupChange.reduce((backups, change) => {
+      if (change.type === 'add') {
+        backups.push(change.id);
+      } else {
+        return backups.filter((id) => id !== change.id);
+      }
+      return backups;
+    }, client.activeBackups);
+    const updatedClient = new Client({
       ...client,
-      enabled: false,
-      updatedAt: new Date(),
+      activeBackups,
+      updatedAt: now,
     });
     await put({
       TableName: environment.TABLE_NAMES.Client,
       ReturnConsumedCapacity: 'TOTAL',
-      Item: newClient.serialize() as any,
+      Item: updatedClient.serialize() as any,
+    });
+    metro.metricStop(mid);
+    return updatedClient;
+  } catch (err) {
+    metro.metricStop(mid);
+    throw err.message;
+  }
+};
+
+export const disableClient = async (clientId: string): Promise<boolean> => {
+  const mid = metro.metricStart('disableClient');
+  try {
+    const now = new Date();
+    await update({
+      TableName: environment.TABLE_NAMES.Client,
+      ReturnConsumedCapacity: 'TOTAL',
+      Key: {
+        pk: CLIENT_PRIMARY_KEY,
+        sk: clientId,
+      },
+      UpdateExpression: 'SET #enabled = :enabled, #updatedAt = :now',
+      ExpressionAttributeNames: { '#enabled': 'enabled', '#storeIndexSK': 'storeIndexSk' },
+      ExpressionAttributeValues: {
+        ':enabled': false,
+        ':now': `${now}`,
+      },
     });
     metro.metricStop(mid);
     return true;

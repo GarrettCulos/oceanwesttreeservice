@@ -17,6 +17,6 @@ export const environment: Environment = {
     },
   },
   TABLE_NAMES: {
-    Client: 'Client_0_0_1',
+    Client: 'CloudBackupClient_0_0_1',
   },
 };

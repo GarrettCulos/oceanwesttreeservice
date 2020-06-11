@@ -1,13 +1,13 @@
-const client = `
+export default `
     type Client {
-      name: String
+      id: String
       key: String
       secret: String
       atlassianHost: String
       email: String
+      enabled: Boolean
+      activeBackups: [String]
       updatedAt: Date
       createdAt: Date
     }
-
 `;
-export default client;

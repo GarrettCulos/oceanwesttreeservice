@@ -1,17 +1,19 @@
+/*eslint-env node*/
+
 import AWS from 'aws-sdk';
 import fs from 'fs';
 import { seedFunction } from './seed-data';
 const awsConfig = {
   region: 'us-west-2',
   endpoint: 'http://localhost:8001',
+  credentials: new AWS.Credentials('key', 'secret'),
 };
 AWS.config.update(awsConfig);
-
 const tables = JSON.parse(fs.readFileSync(__dirname + '/../dynamodb-table.json', 'utf8'));
 const docClient = new AWS.DynamoDB.DocumentClient();
 const dynamodb = new AWS.DynamoDB();
 const tableNames = Object.keys(tables);
-
+console.log(tableNames);
 dynamodb.listTables((err, data) => {
   if (err) {
     console.log(err, err.stack);

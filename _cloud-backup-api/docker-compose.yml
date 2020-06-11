@@ -1,13 +1,13 @@
 version: '3.7'
 services:
   graphql:
-    container_name: storePortalGraphql
+    container_name: cloduBackupGraphql
     shm_size: '500Mb'
     image: node:13.10.1-alpine3.10
     volumes:
       - '../:/api/graphql'
     working_dir: /api/graphql
-    command: npm run graphqlSamEg.build.docker
+    command: npm run cloudBackupApi.build.docker
     expose:
       - '4000'
     networks:
@@ -17,7 +17,7 @@ services:
 
   dynamodb:
     image: amazon/dynamodb-local
-    container_name: storePortalDynamodb
+    container_name: cloduBackupDynamodb
     environment:
       - ./Djava.library.path=./DynamoDBLocal_lib
     volumes:
@@ -30,7 +30,7 @@ services:
 
   nginx:
     image: nginx:latest
-    container_name: storePortalApiGateway
+    container_name: cloduBackupApiGateway
     depends_on:
       - graphql
     volumes:

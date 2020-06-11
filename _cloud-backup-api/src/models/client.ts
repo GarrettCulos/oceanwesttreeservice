@@ -1,22 +1,28 @@
 import uuid from 'uuid';
-import { CLIENT_PRIMARY_KEY, storePkPrefix } from '../constants';
+import { CLIENT_PRIMARY_KEY } from '../constants';
 
 export interface AddClientInterface {
-  name: string;
   key: string;
   secret: string;
   atlassianHost: string;
   email: string;
 }
 
+export interface UpdateClientInterface {
+  activeBackupChange: {
+    type: 'add' | 'remove';
+    id: string;
+  }[];
+}
+
 export class ClientType {
   readonly id?: string;
-  name: string;
   key: string;
   secret: string;
   atlassianHost: string;
   email: string;
   enabled: boolean;
+  activeBackups: string[];
   updatedAt: Date;
   createdAt: Date;
 }

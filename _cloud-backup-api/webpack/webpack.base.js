@@ -15,9 +15,9 @@ const baseDeployment = 'dist';
 const graphQl = (mode = 'development') => ({
   mode,
   entry: {
-    graphFunction: path.resolve(rootDir, 'src', 'graphql', 'graphFunction.ts'),
-    installFunction: path.resolve(rootDir, 'src', 'install-lambda', 'installFunction.ts'),
-    uninstallFunction: path.resolve(rootDir, 'src', 'uninstall-lambda', 'uninstallFunction.ts'),
+    graphFunction: path.resolve(rootDir, 'src', 'lambdas', 'graphql', 'graphFunction.ts'),
+    installFunction: path.resolve(rootDir, 'src', 'lambdas', 'install-lambda', 'installFunction.ts'),
+    uninstallFunction: path.resolve(rootDir, 'src', 'lambdas', 'uninstall-lambda', 'uninstallFunction.ts'),
   },
   externals: [nodeExternals()],
   target: 'node',
@@ -47,7 +47,7 @@ const graphQl = (mode = 'development') => ({
 const expressGraphql = {
   mode: 'development',
   entry: {
-    express: path.resolve(rootDir, 'src', 'graphql', 'express.ts'),
+    express: path.resolve(rootDir, 'src', 'lambdas', 'graphql', 'express.ts'),
   },
   externals: [nodeExternals()],
   target: 'node',

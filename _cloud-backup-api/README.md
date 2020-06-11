@@ -18,7 +18,3 @@ You may want to change the polling setting in the console to make the api loggin
 `brew install aws-sam-cli`
 
 then `npm run build.serverless && npm run aws.sam.pack`
-
-## Theme colors
-
-https://codepen.io/pen/?&editable=true=https%3A%2F%2Fmaterial.io%2Fresources%2Fcolor%2F

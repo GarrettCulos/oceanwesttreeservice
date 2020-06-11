@@ -1,18 +1,18 @@
 import { IResolvers } from 'graphql-tools';
 import { ApolloError } from 'apollo-server';
 import * as metro from '@util/metrica';
-import { getClientById } from '../../services/client';
+import { getClientById, updateClient } from '../../../services/client';
 export const resolvers: IResolvers = {
   Query: {
     currentUser: async (root, args, context) => {
-      const mid = metro.metricStart('user');
+      const mid = metro.metricStart('get client');
       try {
-        if (!context.user) {
+        if (!context.client) {
           throw new ApolloError('You must login first');
         }
-        const user = await getClientById(context.user.id);
+        const client = await getClientById(context.client.id);
         metro.metricStop(mid);
-        return user;
+        return client;
       } catch (err) {
         metro.metricStop(mid);
         throw err.message;

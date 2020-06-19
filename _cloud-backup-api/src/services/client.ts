@@ -18,8 +18,12 @@ export const getClientById = async (clientId: string): Promise<Client> => {
       KeyConditionExpression: 'pk = :id AND sk = :sk',
       ExpressionAttributeValues: { ':id': CLIENT_PRIMARY_KEY, ':sk': clientId },
     });
+    if (Items.length === 0) {
+      return undefined;
+    }
+    const client = new Client(Items[0] as any);
     metro.metricStop(mid);
-    return new Client(Items[0] as any);
+    return client;
   } catch (err) {
     metro.metricStop(mid);
     throw err;
@@ -29,7 +33,7 @@ export const getClientById = async (clientId: string): Promise<Client> => {
 export const addClient = async (d: AddClientInterface): Promise<Client> => {
   const mid = metro.metricStart('addClient');
   try {
-    const clientId = uuid();
+    const clientId = d.id || uuid.v4();
     const now = new Date();
     const client = new Client({
       ...d,
@@ -84,8 +88,8 @@ export const updateClient = async (clientId: string, updateData: UpdateClientInt
   }
 };
 
-export const disableClient = async (clientId: string): Promise<boolean> => {
-  const mid = metro.metricStart('disableClient');
+export const setClientStatus = async (clientId: string, enabled: boolean): Promise<boolean> => {
+  const mid = metro.metricStart('setClientStatus');
   try {
     const now = new Date();
     await update({
@@ -96,15 +100,16 @@ export const disableClient = async (clientId: string): Promise<boolean> => {
         sk: clientId,
       },
       UpdateExpression: 'SET #enabled = :enabled, #updatedAt = :now',
-      ExpressionAttributeNames: { '#enabled': 'enabled', '#storeIndexSK': 'storeIndexSk' },
+      ExpressionAttributeNames: { '#enabled': 'enabled', '#updatedAt': 'updatedAt' },
       ExpressionAttributeValues: {
-        ':enabled': false,
+        ':enabled': enabled,
         ':now': `${now}`,
       },
     });
     metro.metricStop(mid);
     return true;
   } catch (err) {
+    console.log(err);
     metro.metricStop(mid);
     throw err.message;
   }

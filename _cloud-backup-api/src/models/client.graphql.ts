@@ -1,8 +1,9 @@
 export default `
     type Client {
       id: String
-      key: String
-      secret: String
+      clientKey: String
+      publicKey: String
+      sharedSecret: String
       atlassianHost: String
       email: String
       enabled: Boolean

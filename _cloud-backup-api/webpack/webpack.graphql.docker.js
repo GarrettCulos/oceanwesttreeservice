@@ -5,9 +5,9 @@ const devConfig = {
   mode: 'development',
   resolve: {
     alias: {
-      '@config': path.resolve(rootDir, 'config'),
       '@config/environment': path.resolve(rootDir, 'config', 'environment.docker'),
+      '@config': path.resolve(rootDir, 'config'),
     },
   },
 };
-module.exports = [merge(expressGraphql, { ...devConfig })];
+module.exports = [merge({ ...devConfig }, expressGraphql)];

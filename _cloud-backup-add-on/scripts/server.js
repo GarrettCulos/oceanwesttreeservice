@@ -13,16 +13,11 @@ app.use(bodyParser.raw());
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 app.post('/api/installed', (req, res) => {
-  console.log(req);
-  console.log(req.headers);
-  console.log(req.query);
-  console.log(req.params);
-  console.log(req.body);
   res.status(200).send({ message: 'gotcha' });
 });
 app.post('/api/uninstalled', (req, res) => {
   console.log(req);
   res.status(200).send({ message: 'ohhh, thats alright <3' });
 });
-app.use(express.static('./build'));
+app.use('/files', express.static('./build'));
 app.listen(port, () => console.log(`Add On Server running on port:${port}`));

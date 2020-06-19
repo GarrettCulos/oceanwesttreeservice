@@ -1,7 +1,18 @@
 version: '3.7'
 services:
+  addon:
+    container_name: cloudBackupAddOn
+    shm_size: '500Mb'
+    image: node:13.10.1-alpine3.10
+    volumes:
+      - '../_cloud-backup-add-on/:/addon'
+    working_dir: /addon
+    command: node scripts/server.js
+    networks:
+      - api
+
   graphql:
-    container_name: cloduBackupGraphql
+    container_name: cloudBackupGraphql
     shm_size: '500Mb'
     image: node:13.10.1-alpine3.10
     volumes:
@@ -17,7 +28,7 @@ services:
 
   dynamodb:
     image: amazon/dynamodb-local
-    container_name: cloduBackupDynamodb
+    container_name: cloudBackupDynamodb
     environment:
       - ./Djava.library.path=./DynamoDBLocal_lib
     volumes:
@@ -30,7 +41,7 @@ services:
 
   nginx:
     image: nginx:latest
-    container_name: cloduBackupApiGateway
+    container_name: cloudBackupApiGateway
     depends_on:
       - graphql
     volumes:

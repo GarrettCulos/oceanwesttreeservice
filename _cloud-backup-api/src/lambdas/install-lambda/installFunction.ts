@@ -17,7 +17,7 @@ import { addClient, getClientById, setClientStatus } from '../../services/client
       "graphql":{
         "Type": "Api",
         "Properties": {
-          "Path": "/api/install",
+          "Path": "/api/installed",
           "Method": "post"
         }
       }
@@ -44,7 +44,7 @@ export const handler = async (event: APIGatewayEvent, context: Context) => {
     */
     const data: any = event.body;
     const clientId = data.baseUrl.match(/[^https://?|^http://].+/g)[0];
-    installFunction(clientId, data);
+    await installFunction(clientId, data);
     return true;
   } catch (error) {
     console.log(error);
@@ -69,4 +69,5 @@ export const installFunction = async (
       email: '',
     });
   }
+  return true;
 };

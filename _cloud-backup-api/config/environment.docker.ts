@@ -10,7 +10,7 @@ export const environment: Environment = {
   },
   SES: {
     isEnabled: false,
-    sourceEmail: 'test@gmail.com',
+    sourceEmail: 'docker@gmail.com',
     config: {
       apiVersion: '2010-12-01',
       region: 'us-west-2',

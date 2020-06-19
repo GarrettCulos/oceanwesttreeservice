@@ -15,7 +15,7 @@ export interface Environment {
 }
 export const environment: Environment = {
   env: 'development',
-  SESSION_SECRET: 'dev_secret',
+  SESSION_SECRET: 'dev_dev_secret',
   dynamoDb: {
     region: 'us-west-2',
     endpoint: 'http://localhost:8001',

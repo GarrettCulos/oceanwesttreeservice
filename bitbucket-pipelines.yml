@@ -12,12 +12,10 @@ definitions:
         caches:
           - node
           - bulkoperations
-          - cloudbackukpaddon
         script:
           - npm install
           - ./scripts/bb-pipeline-cache-manager.sh ./ node
           - ./scripts/bb-pipeline-cache-manager.sh ./_bulk_operations_add_on/ bulkoperations
-          - ./scripts/bb-pipeline-cache-manager.sh ./_cloud-backup-add-on/ cloudbackukpaddon
           - npm run lint
     - step: &test-stack
         name: 'Atlassian Stack: Test'

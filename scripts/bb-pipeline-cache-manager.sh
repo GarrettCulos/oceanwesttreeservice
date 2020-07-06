@@ -12,7 +12,11 @@ if [[ -d ".git" ]]; then
     npm install
     cd $root
   elif [[ -z $(git diff HEAD^ HEAD ${PACKAGEPATH}package.json) ]]; then
-    printf "Packages has not changed\n"
+    printf "Packages has not changed (re-install anyway)\n"
+    root=$(pwd)
+    cd $PACKAGEPATH
+    npm install
+    cd $root
   else
     root=$(pwd)
     printf "Packages has changed, clearing cache\n"

@@ -12,9 +12,11 @@ definitions:
         caches:
           - node
           - bulkoperations
+          - jiracloudbackupaddon
         script:
           - ./scripts/bb-pipeline-cache-manager.sh ./ node
           - ./scripts/bb-pipeline-cache-manager.sh ./_bulk_operations_add_on/ bulkoperations
+          - ./scripts/bb-pipeline-cache-manager.sh ./_bulk_operations_add_on/ jiracloudbackupaddon
           - npm run lint
     - step: &test-stack
         name: 'Atlassian Stack: Test'
@@ -91,6 +93,7 @@ definitions:
 
   caches:
     bulkoperations: ./_bulk_operations_add_on/node_modules
+    jiracloudbackupaddon: ./_coud-backup-add-on/node_modules
 
 pipelines:
   default:

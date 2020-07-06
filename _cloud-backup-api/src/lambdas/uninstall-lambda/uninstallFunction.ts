@@ -40,7 +40,6 @@ export const uninstallFunction = async (clientId: string, jwt: string) => {
   }
 })WebpackLanbda@
 */
-
 export const handler = async (event: APIGatewayEvent, context: Context) => {
   const data: any = event.body;
   const headers = event.headers;

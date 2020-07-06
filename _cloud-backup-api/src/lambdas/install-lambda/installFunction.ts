@@ -61,6 +61,26 @@ export const installFunction = async (
   }
 };
 
+export const installFunction = async (
+  clientId: string,
+  data: { clientKey: string; publicKey: string; sharedSecret: string }
+) => {
+  const isClient = await getClientById(clientId);
+  if (isClient) {
+    await setClientStatus(clientId, true);
+  } else {
+    await addClient({
+      clientKey: data.clientKey,
+      publicKey: data.publicKey,
+      sharedSecret: data.sharedSecret,
+      id: clientId,
+      atlassianHost: clientId,
+      email: '',
+    });
+  }
+  return true;
+};
+
 /*
 @WebpackLambda({
   "Properties": {

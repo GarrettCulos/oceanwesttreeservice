@@ -6,18 +6,18 @@ const util = require('util');
 const ogExec = require('child_process').exec;
 const exec = util.promisify(require('child_process').exec);
 
-const writeNewConnectFile = function(url) {
+const writeNewConnectFile = function (url) {
   // parse connect.json file and replace <% BASE_URL %> with ngrok url
-  fs.readFile('atlassian-connect.json', 'utf8', function(err, data) {
+  fs.readFile('atlassian-connect.json', 'utf8', function (err, data) {
     const newJSON = data.replace(/<% BASE_URL %>/g, url);
-    fs.writeFile('./build/atlassian-connect.json', newJSON, 'utf8', function(err, data) {
+    fs.writeFile('./build/atlassian-connect.json', newJSON, 'utf8', function (err, data) {
       if (err) console.log(err);
       //   console.log('h3 addon: atlassian-connect.json written');
     });
   });
 };
 
-(async function() {
+(async function () {
   const commandArgs = process.argv.slice(2);
   const port = commandArgs[0];
   try {
@@ -29,8 +29,8 @@ const writeNewConnectFile = function(url) {
     const url = await ngrok.connect({
       proto: 'http', // http|tcp|tls, defaults to http
       addr: port, // port or network address, defaults to 80
-      onStatusChange: status => console.log(`h3 ngrok status: ${status}`),
-      onLogEvent: data => console.log(`h3 ngrok: ${data}`)
+      onStatusChange: (status) => console.log(`h3 ngrok status: ${status}`),
+      onLogEvent: (data) => console.log(`h3 ngrok: ${data}`),
     });
     console.log('h3 addon: ngrok server started');
 
@@ -42,7 +42,7 @@ const writeNewConnectFile = function(url) {
 
     // start local server
     const child = ogExec(`node ./scripts/server.js ${port}`);
-    child.stdout.on('data', function(data) {
+    child.stdout.on('data', function (data) {
       console.log(data.toString());
     });
   } catch (error) {

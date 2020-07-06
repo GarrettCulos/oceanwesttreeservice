@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-undef */
 const ngrok = require('ngrok');
 

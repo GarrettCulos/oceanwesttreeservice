@@ -111,6 +111,6 @@ export const initiateBackupPolling = async (client: Client, taskId: string) => {
   });
 };
 
-export const getBackupDownloadLink = (bucket: String, name: string) => {
+export const getBackupDownloadLink = (bucket: string, name: string) => {
   return getSignedDownload({ Bucket: bucket, Key: name, Expires: 600 });
 };

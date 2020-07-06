@@ -1,3 +1,6 @@
+export const PROJECT_TAG_KEY = 'jira-cloud-backup-manager';
+export const POLLING_LAMBDA_FUNCTION_NAME = 'atlassianCloudBackupPollingFunction';
+
 export const DISALLOWED_PASSWORDS = 'banger';
 export const EXPIRES_IN = 14400;
 

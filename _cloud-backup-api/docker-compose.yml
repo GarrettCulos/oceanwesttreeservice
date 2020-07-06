@@ -1,5 +1,28 @@
 version: '3.7'
 services:
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    ports:
+      - '4566-4599:4566-4599'
+      - '8081:8081'
+    environment:
+      - IMAGE_NAME=localstack
+      - HOSTNAME=localstack
+      - SERVICES=s3,eventbridge,lambda,dynamodb,cloudwatch,cloudwatchevents
+      - PORT_WEB_UI=8081
+      - USE_SSL=false
+      - DEFAULT_REGION=us-west-2
+      - DATA_DIR=/tmp/localstack/data
+      - TMPDIR=/private${TMPDIR- }
+      - DEBUG=1
+      - HOST_TMP_FOLDER=${TMPDIR}
+    volumes:
+      - '${TMPDIR:-/tmp/localstack}:/tmp/localstack'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    networks:
+      - api
+
   addon:
     container_name: cloudBackupAddOn
     shm_size: '500Mb'
@@ -18,12 +41,13 @@ services:
     volumes:
       - '../:/api/graphql'
     working_dir: /api/graphql
-    command: npm run cloudBackupApi.build.docker
+    command: npm run cba.build.docker
     expose:
       - '4000'
     networks:
       - api
     depends_on:
+      - localstack
       - dynamodb
 
   dynamodb:
@@ -43,13 +67,15 @@ services:
     image: nginx:latest
     container_name: cloudBackupApiGateway
     depends_on:
+      - addon
       - graphql
+      - localstack
     volumes:
       - ./nginx-apigateway.conf:/etc/nginx/nginx.conf
     networks:
       - api
     ports:
-      - 8080:8080
+      - 9001:8080
 
 networks:
   api:

@@ -27,7 +27,7 @@ import { decodeJwtToken } from '@services/jwt';
       }
     }
   }
-})
+})WebpackLanbda@
 */
 if (graphql) {
 }

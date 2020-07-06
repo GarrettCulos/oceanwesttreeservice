@@ -4,7 +4,7 @@ import * as metro from '@util/metrica';
 import { getClientById, updateClient } from '../../../services/client';
 export const resolvers: IResolvers = {
   Query: {
-    currentUser: async (root, args, context) => {
+    currentClient: async (root, args, context) => {
       const mid = metro.metricStart('get client');
       try {
         if (!context.client) {

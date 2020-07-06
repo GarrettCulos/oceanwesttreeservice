@@ -8,7 +8,7 @@ export const getBackups = async (clientId: string, backupDate?: Date): Promise<B
   const mid = metro.metricStart('getBackups');
   try {
     const params = {
-      TableName: environment.TABLE_NAMES.Store,
+      TableName: environment.TABLE_NAMES.Client,
       ReturnConsumedCapacity: 'TOTAL',
     };
     const { Items, ...rest } = await query({

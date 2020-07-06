@@ -8,8 +8,8 @@ export const gqlExpress = new ApolloServer({
   context: async ({ req }) => {
     let token = req.headers['x-access-token'] || '';
     token = Array.isArray(token) ? token[0] : token;
-    const user = await decodeJwtToken(token);
-    return { user };
+    const client = await decodeJwtToken(token);
+    return { client };
   },
   formatError: (err) => {
     return err;

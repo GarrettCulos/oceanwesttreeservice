@@ -8,6 +8,11 @@ const awsConfig = {
   endpoint: 'http://localhost:8001',
   credentials: new AWS.Credentials('key', 'secret'),
 };
+// const awsConfig = {
+//   region: 'us-west-2',
+//   endpoint: 'http://localhost:4566',
+// };
+
 AWS.config.update(awsConfig);
 const tables = JSON.parse(fs.readFileSync(__dirname + '/../dynamodb-table.json', 'utf8'));
 const docClient = new AWS.DynamoDB.DocumentClient();

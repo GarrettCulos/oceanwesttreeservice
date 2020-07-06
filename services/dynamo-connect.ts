@@ -1,7 +1,7 @@
 import AWS, { DynamoDB } from 'aws-sdk';
 import { environment } from '@config/environment';
 
-AWS.config.update({ ...environment.dynamoDb });
+AWS.config.update(environment.aws.dynamoDb);
 
 export const docClient = new AWS.DynamoDB.DocumentClient();
 

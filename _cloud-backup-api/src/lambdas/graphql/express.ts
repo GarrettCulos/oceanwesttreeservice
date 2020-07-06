@@ -15,7 +15,8 @@ app.use(gqlExpress.getMiddleware({ path: '/graphql' }));
 
 app.post('/api/installed', (req, res) => {
   const data = req.body;
-  const clientId = data.baseUrl.match(/[^https://?|^http://].+/g)[0];
+  const clientId = data.baseUrl.replace('https://', '');
+  console.log(clientId, data.baseUrl);
   installFunction(clientId, data)
     .then((re) => {
       res.status(200).send({ message: 'ohhh, thats alright <3' });
@@ -26,7 +27,7 @@ app.post('/api/installed', (req, res) => {
 });
 app.post('/api/uninstalled', (req, res) => {
   const jwt = req.headers.authorization.replace('JWT ', '');
-  const clientId = req.body.baseUrl.match(/[^https://?|^http://].+/g)[0];
+  const clientId = req.body.baseUrl.replace('https://', '');
   uninstallFunction(clientId, jwt)
     .then(() => {
       res.status(200).send({ message: 'ohhh, thats alright <3' });

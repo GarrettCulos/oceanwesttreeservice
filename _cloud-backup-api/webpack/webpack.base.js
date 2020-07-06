@@ -1,6 +1,7 @@
 const glob = require('glob');
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
+// const { SamWebpackPlugin } = require('../../../../../sam-webpack-plugin/dist/dev/index.js');
 const { SamWebpackPlugin } = require('sam-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const projectDirName = '_cloud-backup-api';
@@ -17,6 +18,7 @@ const graphQl = (mode = 'development') => ({
   entry: {
     graphFunction: path.resolve(rootDir, 'src', 'lambdas', 'graphql', 'graphFunction.ts'),
     installFunction: path.resolve(rootDir, 'src', 'lambdas', 'install-lambda', 'installFunction.ts'),
+    lambdaPollingFunction: path.resolve(rootDir, 'src', 'lambdas', 'lambda-polling', 'polling-function.ts'),
     uninstallFunction: path.resolve(rootDir, 'src', 'lambdas', 'uninstall-lambda', 'uninstallFunction.ts'),
   },
   externals: [nodeExternals()],

@@ -7,6 +7,9 @@ export const uninstallFunction = async (clientId: string, jwt: string) => {
   const decode = await jwtDecode(jwt.trim(), client.sharedSecret);
   if (decode && decode.iss === client.clientKey) {
     const valid = await setClientStatus(clientId, false);
+    // stop pollings if there are any.
+
+    // update all in flight backukps.
     return true;
   } else {
     return Promise.reject('You cannot perform that action.');
@@ -35,7 +38,7 @@ export const uninstallFunction = async (clientId: string, jwt: string) => {
       }
     }
   }
-})
+})WebpackLanbda@
 */
 export const handler = async (event: APIGatewayEvent, context: Context) => {
   const data: any = event.body;

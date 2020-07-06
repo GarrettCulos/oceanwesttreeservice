@@ -24,7 +24,7 @@ export const clientSchema = makeExecutableSchema({
       }
 
       type Query {
-        currentUser: Client
+        currentClient: Client
       }
       
       type Mutation {

@@ -5,6 +5,7 @@ export interface AddClientInterface {
   id?: string;
   clientKey: string;
   publicKey: string;
+  bucket: string;
   sharedSecret: string;
   atlassianHost: string;
   email: string;
@@ -24,6 +25,7 @@ export class ClientType {
   publicKey: string;
   sharedSecret: string;
   atlassianHost: string;
+  bucket: string;
   email: string;
   enabled: boolean;
   activeBackups: string[];

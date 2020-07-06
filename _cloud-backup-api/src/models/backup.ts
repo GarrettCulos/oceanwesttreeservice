@@ -3,6 +3,7 @@ import { backupSkPrefix } from '../constants';
 
 export interface AddBackupInterface {
   withAttachments?: boolean;
+  taskId: string;
 }
 
 export interface UpdateBackupInterface {

@@ -19,6 +19,7 @@ export const getClientById = async (clientId: string): Promise<Client> => {
       ExpressionAttributeValues: { ':id': CLIENT_PRIMARY_KEY, ':sk': clientId },
     });
     if (Items.length === 0) {
+      metro.metricStop(mid);
       return undefined;
     }
     const client = new Client(Items[0] as any);

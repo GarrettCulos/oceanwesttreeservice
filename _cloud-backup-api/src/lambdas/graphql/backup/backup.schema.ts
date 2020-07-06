@@ -8,6 +8,7 @@ export const backupSchema = makeExecutableSchema({
     `      
       type Query {
         getBackups(backupDate: Date): [Backup]
+        getBackupLink(backupName: String): String
       }
       
       type Mutation {

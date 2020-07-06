@@ -1,6 +1,18 @@
 import { Context, APIGatewayEvent } from 'aws-lambda';
 import { setClientStatus, getClientById } from '../../services/client';
 import { jwtDecode } from '@services/atlassian-jwt';
+
+export const uninstallFunction = async (clientId: string, jwt: string) => {
+  const client = await getClientById(clientId);
+  const decode = await jwtDecode(jwt.trim(), client.sharedSecret);
+  if (decode && decode.iss === client.clientKey) {
+    const valid = await setClientStatus(clientId, false);
+    return true;
+  } else {
+    return Promise.reject('You cannot perform that action.');
+  }
+};
+
 /*
 @WebpackLambda({
   "Properties": {
@@ -25,7 +37,6 @@ import { jwtDecode } from '@services/atlassian-jwt';
   }
 })
 */
-
 export const handler = async (event: APIGatewayEvent, context: Context) => {
   const data: any = event.body;
   const headers = event.headers;
@@ -39,15 +50,4 @@ export const handler = async (event: APIGatewayEvent, context: Context) => {
       console.log(err);
       return false;
     });
-};
-
-export const uninstallFunction = async (clientId: string, jwt: string) => {
-  const client = await getClientById(clientId);
-  const decode = await jwtDecode(jwt.trim(), client.sharedSecret);
-  if (decode && decode.iss === client.clientKey) {
-    const valid = await setClientStatus(clientId, false);
-    return true;
-  } else {
-    return Promise.reject('You cannot perform that action.');
-  }
 };

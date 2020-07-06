@@ -20,6 +20,5 @@ if [[ -d ".git" ]]; then
     cd $PACKAGEPATH
     npm install
     cd $root
-    
   fi
 fi

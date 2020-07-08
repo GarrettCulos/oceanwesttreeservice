@@ -114,63 +114,62 @@ export const nonFormatedRows = () => <Table {...nonFormattedCellData} />;
 /**
  * Test: Backup from graphql
  */
-// class BackupState {
-//     'Pending';
-//     'Completed';
-//     'Errored';
-// }
+class BackupState {
+    'Pending';
+    'Completed';
+    'Errored';
+}
 
-// class BackupType {
-//     id; // string
-//     clientId; // string
-//     backupDate; // Date
-//     state; //BackupState
-//     withAttachments; //boolean
-//     s3Location; // string
-//     updatedAt; // Date
-//     createdAt;// Date
-// }
+class BackupType {
+    id; // string
+    clientId; // string
+    backupDate; // Date
+    state; //BackupState
+    withAttachments; //boolean
+    s3Location; // string
+    updatedAt; // Date
+    createdAt;// Date
+}
 
-// const backupColumnKeys = [
-//     'id',
-//     'clientId',
-//     'backupDate',
-//     'state',
-//     'withAttachments',
-//     's3Location',
-//     'updatedAt',
-//     'createdAt',
-// ];
+const backupColumnKeys = [
+    'id',
+    'clientId',
+    'backupDate',
+    'state',
+    'withAttachments',
+    's3Location',
+    'updatedAt',
+    'createdAt',
+];
 
-// const backupColumnHeaders = [
-//     'Id',
-//     'Client Id',
-//     'Backup Date',
-//     'State',
-//     'With Attachments',
-//     'S3 Location',
-//     'Updated At',
-//     'Created At',
-// ];
+const backupColumnHeaders = [
+    'Id',
+    'Client Id',
+    'Backup Date',
+    'State',
+    'With Attachments',
+    'S3 Location',
+    'Updated At',
+    'Created At',
+];
 
-// const backupIsSortable = [false, false, false, false, false, false, false, false];
+const backupIsSortable = [false, false, false, false, false, false, false, false];
 
-// let backupRow = new BackupType();
-// backupRow.id = 'test';
-// backupRow.clientId = 'testClient';
-// backupRow.backupDate = new Date(2020, 7, 7);
-// backupRow.state = new BackupState('Pending');
-// backupRow.withAttachments = false;
-// backupRow.s3Location = 'test location';
-// backupRow.updatedAt = new Date(2020, 7, 8);
-// backupRow.createdAt = new Date(2020, 7, 6);
+let backupRow = new BackupType();
+backupRow.id = 'test';
+backupRow.clientId = 'testClient';
+backupRow.backupDate = '2020-07-07'//new Date(2020, 7, 7);
+backupRow.state = 'Pending'//new BackupState('Pending');
+backupRow.withAttachments = false;
+backupRow.s3Location = 'test location';
+backupRow.updatedAt = '2020-07-08'//new Date(2020, 7, 8);
+backupRow.createdAt = '2020-07-06'//new Date(2020, 7, 6);
 
+const backupRowList = [backupRow, backupRow];
+console.log(backupRowList)
+const backupData = {
+    columns: makeDynamicTableColumns(backupColumnKeys, backupColumnHeaders, backupIsSortable),
+    rows: makeDynamicTableRows(backupRowList, backupColumnKeys),
+};
 
-// const backupRowList = [backupRow, backupRow];
-// console.log(backupRowList)
-// const backupData = {
-//     columns: makeDynamicTableColumns(backupColumnKeys, backupColumnHeaders, backupIsSortable),
-//     rows: makeDynamicTableRows(backupRowList, backupColumnKeys),
-// };
-
-// export const backupTest = () => <Table {...backupData} />;
+export const backupTest = () => <Table {...backupData} />;

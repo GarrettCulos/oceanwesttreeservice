@@ -1,6 +1,6 @@
 import React from 'react';
 import Table from '../components/Table';
-import { getColumnKeys, cells, sortByKey, makeDynamicTableColumns, makeDynamicTableRows } from '../components/Table';
+import { getColumnKeys, cells, sortAscendingOrderByKey, makeDynamicTableColumns, makeDynamicTableRows } from '../components/Table';
 
 export default {
     title: 'Table'
@@ -63,7 +63,7 @@ const width = [10];
 
 const testFunctionsData = {
     columns: makeDynamicTableColumns(columnKeys, columnContent, isSortable, width),
-    rows: makeDynamicTableRows(sortByKey(outOfOrderRows, columnKeys[0]), columnKeys)
+    rows: makeDynamicTableRows(sortAscendingOrderByKey(outOfOrderRows, columnKeys[0]), columnKeys)
 };
 
 export const functionTesting = () => <Table {...testFunctionsData} />;
@@ -166,10 +166,20 @@ backupRow.updatedAt = '2020-07-08'//new Date(2020, 7, 8);
 backupRow.createdAt = '2020-07-06'//new Date(2020, 7, 6);
 
 const backupRowList = [backupRow, backupRow];
-console.log(backupRowList)
+
 const backupData = {
     columns: makeDynamicTableColumns(backupColumnKeys, backupColumnHeaders, backupIsSortable),
     rows: makeDynamicTableRows(backupRowList, backupColumnKeys),
 };
 
 export const backupTest = () => <Table {...backupData} />;
+
+/**
+ * Test: Backup test not formatted row
+ */
+const backupNoFormattedRowsData = {
+    columns: makeDynamicTableColumns(backupColumnKeys, backupColumnHeaders, backupIsSortable),
+    rows: backupRowList,
+};
+
+export const backupNoRowFormattingBeforeTest = () => <Table {...backupNoFormattedRowsData} />;

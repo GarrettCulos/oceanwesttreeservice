@@ -8,7 +8,7 @@ import DynamicTable from '@atlaskit/dynamic-table';
  * @param columnKey List of column keys, i.e. [ 'column1', 'column2', ... ]
  * @returns {}[]
  */
-export function sortByKey(rows: {}[], columnKey: any) {
+export function sortAscendingOrderByKey(rows: {}[], columnKey: any) {
     try {
         const sortedRows = rows.sort((a, b) => (a[columnKey] > b[columnKey] ? 1 : -1));
         return sortedRows;
@@ -149,7 +149,7 @@ export function makeDynamicTableRows(rows: any[], columnKeys: any[]) {
 const Table = ({ columns, rows, rowsPerPage, loadingSpinnerSize, sortInitialColumnKey }) => {
     if (rows && rows[0] && !rows[0].cells) {
         if (sortInitialColumnKey) {
-            rows = makeDynamicTableRows(sortByKey(rows, sortInitialColumnKey), getColumnKeys(columns));
+            rows = makeDynamicTableRows(sortAscendingOrderByKey(rows, sortInitialColumnKey), getColumnKeys(columns));
         } else {
             rows = makeDynamicTableRows(rows, getColumnKeys(columns));
         }

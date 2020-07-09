@@ -1,19 +1,12 @@
 import React, { useState, useCallback, constructor, useReducer } from 'react';
 import PropTypes from 'prop-types';
+import CheckboxProps from './CheckboxProps';
 import Button, { ButtonGroup } from '@atlaskit/button';
-import { Checkbox } from '@atlaskit/checkbox';
 import Textfield from '@atlaskit/textfield';
 import Select from '@atlaskit/select';
 
 function checkCheckbox(state, action: { type: boolean }) {
-  switch (action.type) {
-    case true:
-      return { check: false };
-    case false:
-      return { check: true };
-    default:
-      return { check: false };
-  }
+  return { check: action.type };
 }
 
 function checkTime(state, action: { amount: number; unit: string; check: 'unit' | 'amount' }) {
@@ -164,6 +157,10 @@ const EditSchedule = props => {
   };
   const [saveButtonState, saveButtonDispatch] = useReducer(checkSaveButton, saveButtonStatus);
 
+  const toggleCheckbox = useCallback(toggleStatus => {
+    checkboxesDispatch({ type: toggleStatus });
+  }, []);
+
   const changeDropdown = newOption => {
     timeDispatch({ unit: newOption.value, amount: timeState.timeAmount, check: 'unit' });
     saveButtonDispatch({ amount: timeState.timeAmount, unit: newOption.value });
@@ -227,11 +224,7 @@ const EditSchedule = props => {
         <label>The next schduled update is: {nextScheduledDateState.date.toUTCString()}</label>
       </div>
 
-      <Checkbox
-        isChecked={checkboxesState.check}
-        onChange={() => checkboxesDispatch({ type: checkboxesState.check })}
-        label={'Include attachments'}
-      />
+      <CheckboxProps toggle={checkboxesState.check} toggleStatus={toggleCheckbox} label={'Include attachments'} />
 
       <div style={{ display: 'inline-block', marginBottom: '5px', marginTop: '15px' }}>
         <Button style={{ fontSize: 'large' }} appearance="primary" onClick={() => props.noChange()}>

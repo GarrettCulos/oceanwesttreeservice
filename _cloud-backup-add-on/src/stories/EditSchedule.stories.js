@@ -22,7 +22,7 @@ export const noProps = () => <EditSchedule />;
 
 export const actionsOnly = () => <EditSchedule {...actionsData} />;
 
-export const attachmentTruePreset = () => <EditSchedule attachment={true} />;
+export const attachmentTruePreset = () => <EditSchedule attachment={true} {...actionsData} />;
 
 export const hours = () => <EditSchedule {...actionsData} attachment={false} timeAmount={52} timeUnit={'hours'} />;
 

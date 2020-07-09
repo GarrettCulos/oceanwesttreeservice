@@ -1,4 +1,4 @@
-import React, { useState, useCallback, constructor, useReducer } from 'react';
+import React, { useCallback, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import ButtonProps from './ButtonProps';
 import CheckboxProps from './CheckboxProps';
@@ -41,32 +41,21 @@ function checkTime(state, action: { amount: number; unit: string; check: 'unit' 
 function checkScheduledDate(state, action: { amount: number; unit: string }) {
   const today = new Date();
   let newDate = new Date();
-  let hours = 0;
-  let days = 0;
-  let weeks = 0;
-  let months = 0;
-  let years = 0;
   switch (action.unit) {
     case 'hours':
-      days = Math.floor(action.amount / 24);
-      hours = action.amount % 24;
-      newDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + days, today.getHours() + hours);
+      newDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), today.getHours() + action.amount);
       return { date: newDate };
     case 'days':
-      days = Math.floor(action.amount / 1);
-      newDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + days, today.getHours());
+      newDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + action.amount, today.getHours());
       return { date: newDate };
     case 'weeks':
-      weeks = action.amount * 7;
-      newDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + weeks, today.getHours());
+      newDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + action.amount * 7, today.getHours());
       return { date: newDate };
     case 'months':
-      months = Math.floor(action.amount / 1);
-      newDate = new Date(today.getFullYear(), today.getMonth() + months, today.getDate(), today.getHours());
+      newDate = new Date(today.getFullYear(), today.getMonth() + action.amount, today.getDate(), today.getHours());
       return { date: newDate };
     case 'years':
-      years = Math.floor(action.amount / 1);
-      newDate = new Date(today.getFullYear() + years, today.getMonth(), today.getDate(), today.getHours());
+      newDate = new Date(today.getFullYear() + action.amount, today.getMonth(), today.getDate(), today.getHours());
       return { date: newDate };
     default:
       return { date: new Date(today.getFullYear(), today.getMonth(), today.getDate(), today.getHours() + 48) };
@@ -162,14 +151,14 @@ const EditSchedule = props => {
   }, []);
 
   const changeDropdown = newOption => {
-    timeDispatch({ unit: newOption.value, amount: timeState.timeAmount, check: 'unit' });
-    saveButtonDispatch({ amount: timeState.timeAmount, unit: newOption.value });
-    nextScheduledDateDispatch({ amount: timeState.timeAmount, unit: newOption.value });
+    timeDispatch({ unit: newOption.value, amount: Number(timeState.timeAmount), check: 'unit' });
+    saveButtonDispatch({ amount: Number(timeState.timeAmount), unit: newOption.value });
+    nextScheduledDateDispatch({ amount: Number(timeState.timeAmount), unit: newOption.value });
   };
   const changeTimeTextField = newText => {
-    saveButtonDispatch({ amount: newText.target.value, unit: timeState.timeUnit });
-    timeDispatch({ unit: timeState.timeUnit, amount: newText.target.value, check: 'amount' });
-    nextScheduledDateDispatch({ amount: newText.target.value, unit: timeState.timeUnit });
+    saveButtonDispatch({ amount: Number(newText.target.value), unit: timeState.timeUnit });
+    timeDispatch({ unit: timeState.timeUnit, amount: Number(newText.target.value), check: 'amount' });
+    nextScheduledDateDispatch({ amount: Number(newText.target.value), unit: timeState.timeUnit });
   };
 
   const saveChanges = () => {
@@ -221,7 +210,7 @@ const EditSchedule = props => {
         />
       </div>
       <div style={{ display: 'block', marginBottom: '10px' }}>
-        <label>The next schduled update is: {nextScheduledDateState.date.toUTCString()}</label>
+        <label>The next schduled update is: {nextScheduledDateState.date.toString()}</label>
       </div>
 
       <CheckboxProps toggle={checkboxesState.check} toggleStatus={toggleCheckbox} label={'Include attachments'} />

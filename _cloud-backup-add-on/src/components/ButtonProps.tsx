@@ -1,6 +1,6 @@
-import React, { useState, useCallback, constructor, useReducer } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import Button, { ButtonGroup } from '@atlaskit/button';
+import Button from '@atlaskit/button';
 
 /**
  * Button using Atlaskit that can run a function when clicked

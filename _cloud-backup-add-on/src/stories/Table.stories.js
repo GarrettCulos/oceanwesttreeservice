@@ -120,11 +120,11 @@ export const nonFormatedRows = () => <Table {...nonFormattedCellData} />;
 /**
  * Test: Backup from graphql
  */
-class BackupState {
-  Pending;
-  Completed;
-  Errored;
-}
+// class BackupState {
+//   Pending;
+//   Completed;
+//   Errored;
+// }
 
 class BackupType {
   id; // string

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, constructor, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox } from '@atlaskit/checkbox';
 

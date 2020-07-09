@@ -50,6 +50,7 @@ function checkScheduledDate(state, action: { amount: number; unit: string }) {
   let newDate = new Date();
   let hours = 0;
   let days = 0;
+  let weeks = 0;
   let months = 0;
   let years = 0;
   switch (action.unit) {
@@ -63,7 +64,8 @@ function checkScheduledDate(state, action: { amount: number; unit: string }) {
       newDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + days, today.getHours());
       return { date: newDate };
     case 'weeks':
-      newDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + action.amount * 7, today.getHours());
+      weeks = action.amount * 7;
+      newDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + weeks, today.getHours());
       return { date: newDate };
     case 'months':
       months = Math.floor(action.amount / 1);
@@ -110,16 +112,56 @@ const EditSchedule = props => {
   const [timeState, timeDispatch] = useReducer(checkTime, timeProperties);
 
   const nextScheduledDate = {
-    date: new Date(
-      new Date().getFullYear(),
-      new Date().getMonth(),
-      new Date().getDate(),
-      new Date().getHours() + props.timeAmount
-    )
+    date:
+      props.timeUnit === 'hours'
+        ? new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            new Date().getDate(),
+            new Date().getHours() + props.timeAmount
+          )
+        : props.timeUnit === 'days'
+        ? new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            new Date().getDate() + props.timeAmount,
+            new Date().getHours()
+          )
+        : props.timeUnit === 'weeks'
+        ? new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            new Date().getDate() + props.timeAmount * 7,
+            new Date().getHours()
+          )
+        : props.timeUnit === 'months'
+        ? new Date(
+            new Date().getFullYear(),
+            new Date().getMonth() + props.timeAmount,
+            new Date().getDate(),
+            new Date().getHours()
+          )
+        : props.timeUnit === 'years'
+        ? new Date(
+            new Date().getFullYear() + props.timeAmount,
+            new Date().getMonth(),
+            new Date().getDate(),
+            new Date().getHours()
+          )
+        : new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date().getHours())
   };
   const [nextScheduledDateState, nextScheduledDateDispatch] = useReducer(checkScheduledDate, nextScheduledDate);
 
-  const saveButtonStatus = { button: true };
+  const saveButtonStatus = {
+    button:
+      (props.timeUnit === 'hours' && props.timeAmount >= 48) ||
+      (props.timeUnit === 'days' && props.timeAmount >= 2) ||
+      (props.timeUnit === 'weeks' && props.timeAmount >= 1) ||
+      (props.timeUnit === 'months' && props.timeAmount >= 1) ||
+      (props.timeUnit === 'years' && props.timeAmount >= 1)
+        ? true
+        : false
+  };
   const [saveButtonState, saveButtonDispatch] = useReducer(checkSaveButton, saveButtonStatus);
 
   const changeDropdown = newOption => {

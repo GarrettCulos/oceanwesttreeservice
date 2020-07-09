@@ -1,7 +1,7 @@
 import React, { useState, useCallback, constructor, useReducer } from 'react';
 import PropTypes from 'prop-types';
+import ButtonProps from './ButtonProps';
 import CheckboxProps from './CheckboxProps';
-import Button, { ButtonGroup } from '@atlaskit/button';
 import Textfield from '@atlaskit/textfield';
 import Select from '@atlaskit/select';
 
@@ -227,18 +227,15 @@ const EditSchedule = props => {
       <CheckboxProps toggle={checkboxesState.check} toggleStatus={toggleCheckbox} label={'Include attachments'} />
 
       <div style={{ display: 'inline-block', marginBottom: '5px', marginTop: '15px' }}>
-        <Button style={{ fontSize: 'large' }} appearance="primary" onClick={() => props.noChange()}>
-          Cancel
-        </Button>
+        <ButtonProps style={{ fontSize: 'large' }} appearance="primary" buttonClicked={props.noChange} label="Cancel" />
 
-        <Button
+        <ButtonProps
           style={{ marginLeft: '15px', fontSize: 'large' }}
           appearance="primary"
           isDisabled={!saveButtonState.button}
-          onClick={() => saveChanges()}
-        >
-          Okay
-        </Button>
+          buttonClicked={saveChanges}
+          label="Okay"
+        />
       </div>
     </div>
   );

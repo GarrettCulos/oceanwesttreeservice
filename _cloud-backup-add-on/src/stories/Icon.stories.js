@@ -29,6 +29,7 @@ export const insertColour = () => {
       <Icon label={'Delete'} colour={'green'} />
       <Icon label={'Download'} colour={'blue'} />
       <Icon label={'Errored'} colour={'orange'} />
+      <Icon label={'Pending'} colour={'darkRed'} />
     </div>
   );
 };

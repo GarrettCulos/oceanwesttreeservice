@@ -1,6 +1,3 @@
-.vscode
-.circleci
-lib/
-coverage/
-node_modules/
-dist/
+# build folders
+/build
+/coverage

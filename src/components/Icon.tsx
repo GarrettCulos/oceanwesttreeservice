@@ -12,7 +12,7 @@ import TrashIcon from '@atlaskit/icon/glyph/trash';
  * @param props.colour Able to set colour of the icon, except if icon does not exist.
  * @param props.label Chosen icon, the options are: Completed, Delete, Download, Errored, and Pending
  */
-const Icon = props => {
+const Icon = (props: any) => {
   const icon =
     props.label === 'Pending' ? (
       <RefreshIcon label={''} primaryColor={props.colour || 'blue'} />

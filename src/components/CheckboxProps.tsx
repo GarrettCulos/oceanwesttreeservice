@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox } from '@atlaskit/checkbox';
 
-function checkCheckbox(state, action: { type: boolean }) {
+function checkCheckbox(state: any, action: { type: boolean }) {
   switch (action.type) {
     case true:
       return { check: false };
@@ -20,7 +20,7 @@ function checkCheckbox(state, action: { type: boolean }) {
  * @param props.toggle True/false toggle of the initial checkbox status
  * @param props.toggleStatus Function of parent that sets the new toggle status
  */
-const CheckboxProps = props => {
+const CheckboxProps = (props: any) => {
   const attachmentCheckbox = { check: props.toggle };
   const [checkboxesState, checkboxesDispatch] = useReducer(checkCheckbox, attachmentCheckbox);
 

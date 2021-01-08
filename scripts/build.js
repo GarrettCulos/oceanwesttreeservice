@@ -1,6 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 const fs = require('fs');
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '..', '.env')})
+console.log(process.env)
+
+
 // const util = require('util');
 // const exec = util.promisify(require('child_process').exec);
 

@@ -4,10 +4,10 @@
   "description": "Cloud Backup Unility",
   "vendor": {
     "name": "HighwayThree",
-    "url": "http://www.highwaythreesolutions.com"
+    "url": "https://www.highwaythreesolutions.com"
   },
   "links": {
-    "self": "<% BASE_URL %>/files/atlassian-connect.json"
+    "self": "<% BASE_URL %>/static/atlassian-connect.json"
   },
   "lifecycle": {
     "installed": "/api/installed",

@@ -9,7 +9,7 @@ module.exports = {
     '^.+\\.(ts|tsx)$': '<rootDir>/node_modules/ts-jest/preprocessor.js',
   },
   testMatch: ['**/*.(test|spec).(ts|js)'],
-  testPathIgnorePatterns: ['_cloud-migration-src/', '_graphql_sam_example/'],
+  testPathIgnorePatterns: ['stack/'],
   testEnvironment: 'node',
   coverageDirectory: 'coverage',
   moduleNameMapper: {

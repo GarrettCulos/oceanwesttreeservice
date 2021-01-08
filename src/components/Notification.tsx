@@ -10,7 +10,7 @@ import Modal, { ModalTransition } from '@atlaskit/modal-dialog';
  * @param props.close Parent function of what to do when the prompt closes.
  * @param props.header Heading of the prompt
  */
-const Notification = props => {
+const Notification = (props: any) => {
   return (
     <ModalTransition>
       <Modal actions={props.alertPrompt} onClose={props.close()} heading={props.header}>

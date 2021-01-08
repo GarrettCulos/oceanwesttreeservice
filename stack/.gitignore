@@ -7,6 +7,9 @@ lib-cov
 *.pid
 *.gz
 *.swp
+*.js
+!jest.config.js
+*.d.ts
 
 pids
 logs
@@ -15,7 +18,6 @@ results
 tmp
 
 # API keys and secrets
-.env
 config/*
 **/config/environment.*
 !**/config/environment.ts
@@ -28,6 +30,9 @@ node_modules/
 # Build Files
 dist/
 build/
+cdk.out/
+.cdk.staging
+.parcel-cache
 
 # Code Coverage
 coverage/

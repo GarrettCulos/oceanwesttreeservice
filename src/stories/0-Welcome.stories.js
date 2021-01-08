@@ -1,7 +1,7 @@
 import React from 'react';
 import { linkTo } from '@storybook/addon-links';
 import { Welcome } from '@storybook/react/demo';
-import ButtonProps from '../components/ButtonProps';
+import ButtonProps from '../components/Button';
 import CheckboxProps from '../components/CheckboxProps';
 import EditSchedule from '../components/EditSchedule';
 import Icon from '../components/Icon';

@@ -8,9 +8,9 @@ import DynamicTable from '@atlaskit/dynamic-table';
  * @param columnKey List of column keys, i.e. [ 'column1', 'column2', ... ]
  * @returns {}[]
  */
-export function sortAscendingOrderByKey(rows: {}[], columnKey: any) {
+export function sortAscendingOrderByKey(rows: any[], columnKey: any) {
   try {
-    const sortedRows = rows.sort((a, b) => (a[columnKey] > b[columnKey] ? 1 : -1));
+    const sortedRows = rows.sort((a: any, b: any) => (a[columnKey] > b[columnKey] ? 1 : -1));
     return sortedRows;
   } catch (err) {
     console.log(err);
@@ -28,7 +28,7 @@ export function getColumnKeys(columns: any) {
     if (columns.cells) {
       let keys: any = [];
       keys = [];
-      columns.cells.forEach(column => {
+      columns.cells.forEach((column: any) => {
         keys.push(`${column.key}`);
       });
       return keys;
@@ -48,7 +48,7 @@ export function getColumnKeys(columns: any) {
  * @param columns columns.cells[ { key: key1, ... }, { key: key2,... }, ... ]
  * @returns number
  */
-export function getColumnKeyIndex(key, columns) {
+export function getColumnKeyIndex(key: any, columns: any) {
   try {
     if (columns.cells) {
       for (let i = 0; i < columns.cells.length; i++) {
@@ -122,9 +122,9 @@ export function makeDynamicTableRows(rows: any[], columnKeys: any[]) {
   try {
     const dynamicTableRows: any = [];
     let rowData: any = [];
-    rows.forEach(index => {
+    rows.forEach((index: any) => {
       rowData = [];
-      columnKeys.forEach(column => {
+      columnKeys.forEach((column: any) => {
         rowData.push({ key: column, content: index[column] });
       });
       const row = cells(rowData);
@@ -146,7 +146,7 @@ export function makeDynamicTableRows(rows: any[], columnKeys: any[]) {
  * @param rowsPerPage
  * @param sortInitialColumnKey
  */
-const Table = ({ columns, rows, rowsPerPage, loadingSpinnerSize, sortInitialColumnKey }) => {
+const Table = ({ columns, rows, rowsPerPage, loadingSpinnerSize, sortInitialColumnKey }: any) => {
   if (rows && rows[0] && !rows[0].cells) {
     if (sortInitialColumnKey) {
       rows = makeDynamicTableRows(sortAscendingOrderByKey(rows, sortInitialColumnKey), getColumnKeys(columns));
@@ -166,12 +166,12 @@ const Table = ({ columns, rows, rowsPerPage, loadingSpinnerSize, sortInitialColu
   }, []);
 
   const tableSortSettings = useCallback(
-    data => {
+    (data: any) => {
       const cellIndex = getColumnKeyIndex(data.key, columns);
       if (data.sortOrder === 'ASC' && cellIndex !== -1) {
-        setRows(rowsData.sort((a, b) => (a.cells[cellIndex].content > b.cells[cellIndex].content ? 1 : -1)));
+        setRows(rowsData.sort((a: any, b: any) => (a.cells[cellIndex].content > b.cells[cellIndex].content ? 1 : -1)));
       } else if (data.sortOrder === 'DESC' && cellIndex !== -1) {
-        setRows(rowsData.sort((a, b) => (a.cells[cellIndex].content < b.cells[cellIndex].content ? 1 : -1)));
+        setRows(rowsData.sort((a: any, b: any) => (a.cells[cellIndex].content < b.cells[cellIndex].content ? 1 : -1)));
       }
       setSortKey(data.key);
       setSortOrder(data.sortOrder);
@@ -187,7 +187,7 @@ const Table = ({ columns, rows, rowsPerPage, loadingSpinnerSize, sortInitialColu
           rowsPerPage={rowsPerPage}
           loadingSpinnerSize={loadingSpinnerSize}
           page={defaultPageNumber}
-          onSetPage={page => updatePageNumber(page)}
+          onSetPage={updatePageNumber}
         ></DynamicTable>
       </div>
     );
@@ -208,8 +208,8 @@ const Table = ({ columns, rows, rowsPerPage, loadingSpinnerSize, sortInitialColu
           defaultSortKey={sortKey}
           defaultSortOrder={sortOrder}
           page={defaultPageNumber}
-          onSetPage={page => updatePageNumber(page)}
-          onSort={data => tableSortSettings(data)}
+          onSetPage={updatePageNumber}
+          onSort={tableSortSettings}
         ></DynamicTable>
       </div>
     );

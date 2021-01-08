@@ -1,5 +1,5 @@
 import React from 'react';
-import ButtonProps from '../components/ButtonProps';
+import ButtonProps from '../components/Button';
 import { action } from '@storybook/addon-actions';
 
 export default {

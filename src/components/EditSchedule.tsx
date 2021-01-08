@@ -1,15 +1,15 @@
 import React, { useCallback, useReducer } from 'react';
 import PropTypes from 'prop-types';
-import ButtonProps from './ButtonProps';
+import Button from './Button';
 import CheckboxProps from './CheckboxProps';
 import Textfield from '@atlaskit/textfield';
 import Select from '@atlaskit/select';
 
-function checkCheckbox(state, action: { type: boolean }) {
+function checkCheckbox(state: any, action: { type: boolean }) {
   return { check: action.type };
 }
 
-function checkTime(state, action: { amount: number; unit: string; check: 'unit' | 'amount' }) {
+function checkTime(state: any, action: { amount: number; unit: string; check: 'unit' | 'amount' }) {
   if (action.check === 'unit') {
     switch (action.unit) {
       case 'hours':
@@ -38,7 +38,7 @@ function checkTime(state, action: { amount: number; unit: string; check: 'unit' 
   }
 }
 
-function checkScheduledDate(state, action: { amount: number; unit: string }) {
+function checkScheduledDate(state: any, action: { amount: number; unit: string }) {
   const today = new Date();
   let newDate = new Date();
   switch (action.unit) {
@@ -62,7 +62,7 @@ function checkScheduledDate(state, action: { amount: number; unit: string }) {
   }
 }
 
-function checkSaveButton(state, action: { amount: number; unit: string }) {
+function checkSaveButton(state: any, action: { amount: number; unit: string }) {
   return action.unit === 'hours' && action.amount >= 48
     ? { button: true }
     : action.unit === 'days' && action.amount >= 2
@@ -86,7 +86,7 @@ function checkSaveButton(state, action: { amount: number; unit: string }) {
  * @param {number} props.timeAmount The number currently used to calculate time between system backups
  * @param {string} props.timeUnit The unit currently used to calculate between system backups
  */
-const EditSchedule = props => {
+const EditSchedule = (props: any) => {
   const attachmentCheckbox = { check: props.attachment };
   const [checkboxesState, checkboxesDispatch] = useReducer(checkCheckbox, attachmentCheckbox);
 
@@ -146,16 +146,16 @@ const EditSchedule = props => {
   };
   const [saveButtonState, saveButtonDispatch] = useReducer(checkSaveButton, saveButtonStatus);
 
-  const toggleCheckbox = useCallback(toggleStatus => {
+  const toggleCheckbox = useCallback((toggleStatus: any) => {
     checkboxesDispatch({ type: toggleStatus });
   }, []);
 
-  const changeDropdown = newOption => {
+  const changeDropdown = (newOption: any) => {
     timeDispatch({ unit: newOption.value, amount: Number(timeState.timeAmount), check: 'unit' });
     saveButtonDispatch({ amount: Number(timeState.timeAmount), unit: newOption.value });
     nextScheduledDateDispatch({ amount: Number(timeState.timeAmount), unit: newOption.value });
   };
-  const changeTimeTextField = newText => {
+  const changeTimeTextField = (newText: any) => {
     saveButtonDispatch({ amount: Number(newText.target.value), unit: timeState.timeUnit });
     timeDispatch({ unit: timeState.timeUnit, amount: Number(newText.target.value), check: 'amount' });
     nextScheduledDateDispatch({ amount: Number(newText.target.value), unit: timeState.timeUnit });
@@ -216,9 +216,9 @@ const EditSchedule = props => {
       <CheckboxProps toggle={checkboxesState.check} toggleStatus={toggleCheckbox} label={'Include attachments'} />
 
       <div style={{ display: 'inline-block', marginBottom: '5px', marginTop: '15px' }}>
-        <ButtonProps style={{ fontSize: 'large' }} appearance="primary" buttonClicked={props.noChange} label="Cancel" />
+        <Button style={{ fontSize: 'large' }} appearance="primary" buttonClicked={props.noChange} label="Cancel" />
 
-        <ButtonProps
+        <Button
           style={{ marginLeft: '15px', fontSize: 'large' }}
           appearance="primary"
           isDisabled={!saveButtonState.button}

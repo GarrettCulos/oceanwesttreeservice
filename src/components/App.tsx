@@ -29,22 +29,28 @@ const App: React.FC = () => {
   
   useEffect(() => {
     console.log(AP)
-    const token  = AP?.window?.localStorage?.getItem('jira-cloud-backup-token')
-    if ( !token ) {
-      AP.context.getToken().then(token => {
-        request.request({
-          method: 'POST',
-          headers: {'Authorization':`JWT ${token}`},
-          path: `https://garrett-backup.highwaythreesolutions.com/api/auth`,
-          data: {
-            baseUrl: AP._hostOrigin
-          }
-        }).then((res: unknown) => {
-          console.log(res);        
-          AP?.window?.localStorage?.setItem('jira-cloud-backup-token', res.token)
+    AP?.cookie?.read('jira-cloud-backup-token', token => {
+      console.log(token);
+      if ( !token ) {
+        AP?.context?.getToken().then(token => {
+          request.request<any>({
+            method: 'POST',
+            headers: {'Authorization':`JWT ${token}`},
+            path: `https://garrett-backup.highwaythreesolutions.com/api/auth`,
+            data: {
+              baseUrl: AP._hostOrigin
+            }
+          }).then((res: { token: string, client: any, expiresIn: number }) => {
+            console.log(res);
+            setAuthToken(res.token);
+            AP?.cookie?.save('jira-cloud-backup-token', res.token, res.expiresIn)
+          })
         })
-      })
-    }
+      } else {
+        setAuthToken(token);
+      }
+
+    })
   }, [])
 
   const checkProgress = useCallback(async () => {

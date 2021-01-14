@@ -11,8 +11,8 @@ interface RequestLibConfig {
 interface AppRequest {
   path?: string;
   url?: string;
-  body?: any;
-  headers?: Headers;
+  data?: any;
+  headers?: { [s: string]: string};
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
 }
 
@@ -42,17 +42,24 @@ class RequestLib {
   request<T>(req: AppRequest): Promise<T> {
     const url = req.url || (req.path && `${this._config.baseUrl}${req.path}`);
     const method = req.method || 'GET';
-    const headers = this.joinHeaders([
-      new Headers(req.headers ? req.headers : []),
-      this._config.headers || new Headers()
-    ]);
+    const headers = {};
+    this._config.headers?.forEach((val, key) => {
+      headers[key] = val
+    })
+    // this.joinHeaders([
+    //   new Headers(req.headers ? req.headers : []),
+    //   this._config.headers || new Headers()
+    // ]);
     return axios.request({
       ...req,
       url,
       method,
-      headers,
+      headers: {
+        ...headers,
+        ...req.headers
+      },
       withCredentials: true
-    });
+    }).then(res => res.data);
   }
 
   jira(options: { path: string; data?: string; type?: 'POST' | 'GET' | 'PUT' | 'DELETE' }) {

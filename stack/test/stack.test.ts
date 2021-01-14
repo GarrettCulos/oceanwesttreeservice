@@ -13,7 +13,8 @@ test('Empty Stack', () => {
       STACK_SSL_CERTIFICATION_ARN: process.env.STACK_SSL_CERTIFICATION_ARN || '',
       SUB_DOMAIN_NAME: process.env.SUB_DOMAIN_NAME || '',
       DOMAIN_NAME: process.env.DOMAIN_NAME || '',
-      BUILD_DIR: 'test'
+      BUILD_DIR: 'test',
+      API_DOMAIN_NAME: 'test'
   },
   { 
       stackName: 'static-site-test',

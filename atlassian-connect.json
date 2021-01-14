@@ -7,7 +7,7 @@
     "url": "https://www.highwaythreesolutions.com"
   },
   "links": {
-    "self": "<% BASE_URL %>/static/atlassian-connect.json"
+    "self": "<% BASE_URL %>/atlassian-connect.json"
   },
   "lifecycle": {
     "installed": "/api/installed",

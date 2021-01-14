@@ -1,7 +1,8 @@
-import React, { useState, useCallback} from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
 import { Formik, Field, Form } from 'formik';
 import styled from 'styled-components';
 import * as Yup from 'yup';
+import AP from '../services/ap';
 
 import Button from './Button';
 import request from '../services/request';
@@ -25,14 +26,31 @@ const AppContainer = styled.div`
 const App: React.FC = () => {
   const [backupResponse, setBackupRes]: [any, Function] = useState();
   const [authToken, setAuthToken]: [string, Function] = useState('');
+  
+  useEffect(() => {
+    console.log(AP)
+    const token  = AP?.window?.localStorage?.getItem('jira-cloud-backup-token')
+    if ( !token ) {
+      AP.context.getToken().then(token => {
+        request.request({
+          method: 'POST',
+          headers: {'Authorization':`JWT ${token}`},
+          path: `https://garrett-backup.highwaythreesolutions.com/api/auth`,
+          data: {
+            baseUrl: AP._hostOrigin
+          }
+        }).then((res: unknown) => {
+          console.log(res);        
+          AP?.window?.localStorage?.setItem('jira-cloud-backup-token', res.token)
+        })
+      })
+    }
+  }, [])
+
   const checkProgress = useCallback(async () => {
     try {
       if ( authToken && backupResponse.taskId) {
-        const res = await request.request({
-          headers: new Headers([['Authorization', `Basic ${authToken}`]]),
-          path: `/rest/backup/1/export/getProgress?taskId=${backupResponse.taskId}`
-        })
-        console.log(res);
+        
       }
     } catch(err) {
       console.log(err);
@@ -53,9 +71,9 @@ const App: React.FC = () => {
           setAuthToken(TOKEN)
           const backup = await request.request({
             method: 'POST',
-            path: '/rest/backup/1/export/runbackup',
-            body: {},
-            headers: new Headers([['Authorization', `Basic ${TOKEN}`]])
+            path: `${AP._hostOrigin}/rest/backup/1/export/runbackup`,
+            data: {},
+            headers: {'Authorization':`Basic ${TOKEN}`}
           })
           setBackupRes(backup);
           console.log({backup});
@@ -73,7 +91,7 @@ const App: React.FC = () => {
           </div>
         </Form>
       </Formik>
-      <Button type='button' onClick={checkProgress}>Check cloud backups</Button>
+      <Button type='button' disabled={!backupResponse?.taskId} onClick={checkProgress}>Check cloud backups</Button>
     </AppContainer>
   );
 };

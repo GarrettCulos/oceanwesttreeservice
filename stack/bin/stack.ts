@@ -14,6 +14,7 @@ new StaticSite(app, 'garrett',
         SUB_DOMAIN_NAME: process.env.SUB_DOMAIN_NAME || '',
         DOMAIN_NAME: process.env.DOMAIN_NAME || '',
         BUILD_DIR: path.join(__dirname, '..', '..', 'build'),
+        API_DOMAIN_NAME: '2x044jidkk.execute-api.us-east-1.amazonaws.com'
     },
     {
         stackName: 'cloud-backup-ui',

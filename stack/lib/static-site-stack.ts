@@ -11,6 +11,7 @@ interface StaticSiteStackOptions {
   DOMAIN_NAME: string
   STACK_SSL_CERTIFICATION_ARN: string
   BUILD_DIR: string
+  API_DOMAIN_NAME: string
 }
 
 export class StaticSite extends cdk.Stack {
@@ -32,10 +33,19 @@ export class StaticSite extends cdk.Stack {
     /**
      * Create s3 bucket for hosting static site files.
      */
+    const logBucket = new s3.Bucket(this, `log-bucket-${stackOptions.SUB_DOMAIN_NAME}`, { 
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+    })
+
+    /**
+     * Create s3 bucket for hosting static site files.
+     */
     const bucket = new s3.Bucket(this, URL, { 
       websiteErrorDocument: '404.html',
       websiteIndexDocument: 'index.html',
       removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
       publicReadAccess: true,
       cors: [{
         allowedOrigins: ['*'],
@@ -77,6 +87,9 @@ export class StaticSite extends cdk.Stack {
     const cf = new cloudfront.CloudFrontWebDistribution(this, `cf-${URL}`, {
       defaultRootObject: 'index.html',
       httpVersion: cloudfront.HttpVersion.HTTP2,
+      loggingConfig: {
+        bucket: logBucket,
+      },
       errorConfigurations: [{
         errorCode: 404,
         errorCachingMinTtl: 10,
@@ -110,7 +123,7 @@ export class StaticSite extends cdk.Stack {
       originConfigs: [{ 
         s3OriginSource: { s3BucketSource: bucket },
         behaviors: [{
-          cachedMethods: cloudfront.CloudFrontAllowedCachedMethods.GET_HEAD_OPTIONS,
+          cachedMethods: undefined,
           isDefaultBehavior: true,
           compress: true,
           allowedMethods: cloudfront.CloudFrontAllowedMethods.GET_HEAD_OPTIONS,
@@ -119,6 +132,31 @@ export class StaticSite extends cdk.Stack {
           //   lambdaFunction: nonHtmlRequestFunction.currentVersion
           // }]
         }],
+      }, {
+        customOriginSource: {
+          domainName: stackOptions.API_DOMAIN_NAME,
+          originProtocolPolicy: cloudfront.OriginProtocolPolicy.HTTPS_ONLY
+        },
+        behaviors: [{
+          pathPattern: '/api/*', // CloudFront will forward `/api/*` to the backend so make sure all your routes are prepended with `/api/`
+          allowedMethods: cloudfront.CloudFrontAllowedMethods.ALL,
+          defaultTtl: cdk.Duration.seconds(0),
+          compress: true,
+          isDefaultBehavior: false,
+          cachedMethods: undefined,
+          forwardedValues: {
+            queryString: true,
+            headers: [
+              "Access-Control-Allow-Origin",
+              "Access-Control-Allow-Headers",
+              "Access-Control-Allow-Method",
+              "Content-Type",
+              "Authorization",
+              "x-access-token",
+              "Content-Encoding"
+            ], // By default CloudFront will not forward any headers through so if your API needs authentication make sure you forward auth headers across
+          }
+        }]
       }],
       viewerCertificate: cloudfront.ViewerCertificate.fromAcmCertificate(
         siteCertificate,
@@ -154,7 +192,6 @@ export class StaticSite extends cdk.Stack {
     new s3deploy.BucketDeployment(this, 'DeployWebsite', {
       sources: [s3deploy.Source.asset(stackOptions.BUILD_DIR)],
       destinationBucket: bucket,
-      destinationKeyPrefix: 'static',
       retainOnDelete: false
     });
 

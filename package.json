@@ -53,6 +53,7 @@
     "@testing-library/user-event": "7.1.2",
     "apollo-server-express": "2.14.3",
     "axios": "0.21.1",
+    "babel-preset-latest-node": "^5.2.0",
     "cors": "2.8.5",
     "formik": "2.2.6",
     "jest": "26.4.2",

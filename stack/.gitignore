@@ -1,47 +1,12 @@
-lib-cov
-*.seed
-*.log
-*.csv
-*.dat
-*.out
-*.pid
-*.gz
-*.swp
 *.js
 !jest.config.js
 *.d.ts
+node_modules
 
-pids
-logs
-log
-results
-tmp
-
-# API keys and secrets
-config/*
-**/config/environment.*
-!**/config/environment.ts
-!**/config/environment.docker.ts
-!**/config/environment.prod.ts
-
-# Node Packages
-node_modules/
-
-# Build Files
-dist/
-build/
-cdk.out/
+# CDK asset staging directory
 .cdk.staging
+cdk.context.json
+cdk.out
+
+# Parcel default cache directory
 .parcel-cache
-
-# Code Coverage
-coverage/
-
-# Editors
-.idea
-*.iml
-
-
-# OS metadata
-.DS_Store
-Thumbs.db

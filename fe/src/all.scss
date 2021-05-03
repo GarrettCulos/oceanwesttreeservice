@@ -1,0 +1,62 @@
+@import "bulma";
+html {
+    overflow-y: auto !important;
+    --color-white: rgba(255,255,255,0.95);
+    --color-hover: #3273dc;
+    --color-gray: #24292e;
+    --color-gold: #d4a70d;
+    --color-blue: #5596ff;
+    --border-color: rgba(0,0,0,0.2);
+    --font-color: rgba(0,0,0,0.8);
+    --font-color--hover: rgba(0,0,0,0.6);
+    --default-transition: 0.125s all ease-in-out;
+}
+.nav{
+    display: flex;
+
+    &--center {
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.section {
+    padding: 5rem 1.5rem;
+    border-bottom: 1px solid rgba(50,50,20,0.2);
+    &:last-child{
+        border-bottom: none;
+    }
+}
+
+footer.footer {
+    background-color: rgba(0,0,0,0.88);
+    color: var(--color-white);
+    padding: 0;
+
+    a:hover { 
+        color: var(--color-white);
+    }
+
+    .lvl2 {
+        &:hover{
+            opacity: 1
+        }
+        color: grey;
+        opacity: 0.6;
+        background-color: rgba(0,0,0,0.4);
+    }
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+h4 {
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}

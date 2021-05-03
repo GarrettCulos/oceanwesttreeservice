@@ -1,0 +1,23 @@
+{
+  "Properties": {
+    "Handler": "graphFunction.handler",
+    "Policies": [
+      "AWSLambdaExecute",
+      "AWSLambdaVPCAccessExecutionRole",
+      {
+        "DynamoDBCrudPolicy": {
+          "TableName": "*"
+        }
+      }
+    ],
+    "Events": {
+      "graphql": {
+        "Type": "Api",
+        "Properties": {
+          "Path": "/api/graphql",
+          "Method": "post"
+        }
+      }
+    }
+  }
+}

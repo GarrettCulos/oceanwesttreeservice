@@ -1,0 +1,55 @@
+version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@0.1.19
+  node: circleci/node@1.1.6
+jobs:
+  build:
+    working_directory: ~/yetilabs
+    executor:
+      name: node/default
+      tag: '13'
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: npm install
+      - run: npm run build
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
+          # taken to be the root directory of the workspace.
+          root: ./
+          paths:
+            - public
+  deploy:
+    working_directory: ~/yetilabs
+    executor: aws-cli/default
+    steps:
+      - aws-cli/setup
+      - checkout
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: ./
+      - run:
+          name: AWS deploy
+          command: |
+            aws --region us-west-2 s3 sync public s3://www.yetilabs.ca --delete
+      - run:
+          name: AWS invalidate CF distribution
+          command: |
+            aws configure set preview.cloudfront true 
+            aws configure set preview.create-invalidation true
+            aws cloudfront create-invalidation --distribution-id $CF_DISTRIBUTION_ID --paths "/*"
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master

@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist/src",
+    "baseUrl": "./",
+    "typeRoots": ["node_modules/@types"],
+    "paths": {
+      "@util/*": ["util/*"],
+      "@services/*": ["services/*"],
+      "@config/*": ["config/*"],
+      "_types/*": ["types/*"]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "services",
+    "scripts/dynamodb-startup-script.ts",
+    "config/environment.docker.ts",
+    "webpack/webpack.base.js"
+  ]
+}

@@ -1,5 +1,6 @@
 {
   "name": "stack",
+  "version": "0.1.0",
   "bin": {
     "stack": "bin/stack.js"
   },
@@ -7,33 +8,38 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk": "cdk",
     "up": "tsc && cdk deploy",
-    "down": "cdk destroy"
+    "down": "cdk destroy",
+    "cdk": "cdk"
   },
   "devDependencies": {
-    "@types/jest": "26.0.10",
+    "@types/jest": "^26.0.22",
     "@types/node": "10.17.27",
-    "jest": "26.4.2",
-    "ts-jest": "26.2.0",
-    "aws-cdk": "1.82.0",
-    "ts-node": "8.1.0",
-    "typescript": "~3.9.7"
+    "jest": "^26.4.2",
+    "ts-jest": "^26.5.4",
+    "ts-node": "^8.1.0",
+    "typescript": "^3.9.9"
   },
   "dependencies": {
-    "@aws-cdk/assert": "1.82.0",
-    "@aws-cdk/aws-acmpca": "1.82.0",
-    "@aws-cdk/aws-certificatemanager": "1.82.0",
-    "@aws-cdk/aws-cloudfront": "1.82.0",
-    "@aws-cdk/aws-cloudfront-origins": "1.82.0",
-    "@aws-cdk/aws-lambda": "1.82.0",
-    "@aws-cdk/aws-route53": "1.82.0",
-    "@aws-cdk/aws-route53-targets": "1.82.0",
-    "@aws-cdk/aws-s3": "1.82.0",
-    "@aws-cdk/aws-s3-assets": "1.82.0",
-    "@aws-cdk/aws-s3-deployment": "1.82.0",
-    "@aws-cdk/core": "1.82.0",
+    "@aws-cdk/assert": "^1.95.1",
+    "@aws-cdk/aws-acmpca": "^1.95.1",
+    "@aws-cdk/aws-apigatewayv2": "^1.95.1",
+    "@aws-cdk/aws-apigatewayv2-integrations": "^1.95.1",
+    "@aws-cdk/aws-certificatemanager": "^1.95.1",
+    "@aws-cdk/aws-cloudfront": "^1.95.1",
+    "@aws-cdk/aws-cloudfront-origins": "^1.95.1",
+    "@aws-cdk/aws-dynamodb": "^1.95.1",
+    "@aws-cdk/aws-iam": "^1.95.1",
+    "@aws-cdk/aws-lambda": "^1.95.1",
+    "@aws-cdk/aws-logs": "^1.95.1",
+    "@aws-cdk/aws-route53": "^1.95.1",
+    "@aws-cdk/aws-route53-targets": "^1.95.1",
+    "@aws-cdk/aws-s3": "^1.95.1",
+    "@aws-cdk/aws-s3-deployment": "^1.95.1",
+    "@aws-cdk/aws-sam": "^1.95.1",
+    "@aws-cdk/core": "^1.95.1",
+    "aws-cdk": "^1.95.1",
     "dotenv": "^8.2.0",
-    "source-map-support": "0.5.16"
+    "source-map-support": "^0.5.16"
   }
 }

@@ -1,6 +1,10 @@
 {
-  "hosted-zone:account=480497118654:domainName=highwaythreesolutions.com:region=us-east-1": {
-    "Id": "/hostedzone/Z057209515Q0NMPTQH4RT",
-    "Name": "highwaythreesolutions.com."
+  "hosted-zone:account=654384891147:domainName=yetilabs.ca:region=us-east-1": {
+    "Id": "/hostedzone/Z395I3KLU271OO",
+    "Name": "yetilabs.ca."
+  },
+  "hosted-zone:account=654384891147:domainName=yetilabs.ca:region=us-west-2": {
+    "Id": "/hostedzone/Z395I3KLU271OO",
+    "Name": "yetilabs.ca."
   }
 }

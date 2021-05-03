@@ -1,0 +1,23 @@
+{
+  "name": "h3-website-static-front-end",
+  "version": "0.6.0",
+  "description": "Static front-end with NextJS",
+  "private": true,
+  "scripts": {
+    "prettier:check": "prettier --check fe/{contexts,components,hooks,pages,services,scripts,stories}/**",
+    "prettier:fix": "prettier --write fe/{contexts,components,hooks,pages,services,scripts,stories}/**",
+    "prettier": "pretty-quick --staged --pattern 'fe/{contexts,components,hooks,pages,services,scripts,stories}/**'",
+    "lint": "eslint 'fe/{contexts,components,hooks,pages,services,scripts,stories}/**/*.{js,ts,tsx}'"
+  },
+  "devDependencies": {
+    "eslint": "7.14.0",
+    "eslint-plugin-react": "7.21.5",
+    "eslint-plugin-react-hooks": "4.2.0",
+    "husky": "4.3.0",
+    "prettier": "2.2.1",
+    "pretty-quick": "3.1.0",
+    "ts-node": "9.0.0",
+    "typescript": "4.1.2"
+  },
+  "dependencies": {}
+}

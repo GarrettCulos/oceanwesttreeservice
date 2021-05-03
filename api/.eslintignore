@@ -1,0 +1,8 @@
+webpack
+node_modules
+coverage
+build
+dist
+lib
+test
+graphql-sam-deploy
